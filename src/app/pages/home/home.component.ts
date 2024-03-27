@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable} from 'rxjs';
 import { OlympicService } from '../../core/services/olympic.service';
 import { Olympic } from "../../core/models/Olympic";
 
@@ -14,10 +14,6 @@ export class HomeComponent implements OnInit {
   public chart: any;
 
   private chartData: Olympic[] = [];
-  private labels: any[] = [];
-  private medalsCount: any[] = [];
-  private colors: any[] = [];
-
   private dataPoints: any[] = [];
 
 

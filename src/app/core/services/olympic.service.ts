@@ -1,31 +1,43 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
+import {Olympic} from "../models/Olympic";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root', // Scope : Application
 })
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<any>(undefined);
+  // We use the BehaviorSubject rather a simple Observable because we need to store the current value and
+  // to initialize the stream
+  //private olympics$ = new BehaviorSubject<any>(undefined);
 
-  constructor(private http: HttpClient) {}
+  private olympics$:BehaviorSubject<Olympic[]> = new BehaviorSubject<Olympic[]>([]);
 
-  loadInitialData() {
+  constructor(private http: HttpClient) { }
+
+
+  /*
+  Fetch the olympic data from the mock
+   */
+  loadInitialData(): Observable<any> {
     return this.http.get<any>(this.olympicUrl).pipe(
       tap((value) => this.olympics$.next(value)),
-      catchError((error, caught) => {
-        // TODO: improve error handling
+      catchError((error:any ) => {
         console.error(error);
-        // can be useful to end loading state and let the user know something went wrong
-        this.olympics$.next(null);
-        return caught;
+        // Set BehaviorSubject to null to indicate an error
+        this.olympics$.next(null!);
+        // Return throwError using errorFactory to propagate the error
+        return throwError(() => new error('An error has occurred fetching the data. Please try again later.',error));
       })
     );
   }
 
-  getOlympics() {
+  /*
+  Return the olympic data as Observable
+   */
+  getOlympics():Observable<Olympic[]> {
     return this.olympics$.asObservable();
   }
 }

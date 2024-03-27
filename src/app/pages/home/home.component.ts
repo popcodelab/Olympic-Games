@@ -2,14 +2,10 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from '../../core/services/olympic.service';
 import { Olympic } from "../../core/models/Olympic";
-import { CanvasJSChart } from "@canvasjs/angular-charts";
-
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-
-  styleUrls: ['./home.component.scss']
+  templateUrl: './home.component.html'
 
 })
 export class HomeComponent implements OnInit {
@@ -75,19 +71,12 @@ export class HomeComponent implements OnInit {
           this.chartData = olympics;
           if (olympics) {
 
-            for (let i = 0; i < olympics.length; i++) {
-              const index = i;
-              const label = this.chartData[i].country;
-              this.labels.push(label);
-              const count = (this.chartData[i]).participations.reduce((medals, val) => medals + val.medalsCount, 0);
-              this.medalsCount.push(count);
-              const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-              this.colors.push(color);
-              console.table(this.colors);
-              console.table(this.labels);
-              console.table(this.medalsCount);
-              console.log('Observable emitted the next value: ' + olympics.length);
-              const dataPoint = {   y: count , label: label, index:index};
+            for (let index = 0; index < olympics.length; index++) {
+              const dataPoint = {
+                x: index,
+                y: (this.chartData[index]).participations.reduce((medals, val) => medals + val.medalsCount, 0) ,
+                label: this.chartData[index].country
+              };
               this.dataPoints.push(dataPoint);
             }
           }

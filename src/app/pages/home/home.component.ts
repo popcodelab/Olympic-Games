@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Renderer2} from '@angular/core';
 import { Observable} from 'rxjs';
 import { OlympicService } from '../../core/services/olympic.service';
 import { Olympic } from "../../core/models/Olympic";
@@ -8,7 +8,7 @@ import { Olympic } from "../../core/models/Olympic";
   templateUrl: './home.component.html'
 
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
   public olympicsData$: Observable<Olympic[]> | undefined;
   public chart: any;
@@ -21,9 +21,12 @@ export class HomeComponent implements OnInit {
   pieChartOptions = {
     animationEnabled: true,
     title: {
-      text: 'Medals per Country',
+      text: 'Medals per Country'
     },
-    theme: 'light2', // "light1", "dark1", "dark2"
+    legend: {
+      fontSize: 12, // This property doesn't affect the font size directly
+    },
+    theme: 'light1', // "light1", "dark1", "dark2"
     axisX: {
       title: "Year"
     },
@@ -53,12 +56,15 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.olympicsData$ = this.olympicService.getOlympics();
     this.populateChart();
+    this.chart.render();
 
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit(): void {
+
     this.removeCredits();
-  }
+}
+
 
   populateChart() {
     if (this.olympicsData$) {
@@ -83,7 +89,7 @@ export class HomeComponent implements OnInit {
         console.log("Clicked on data point:", e.dataPoint.label);
         // Perform desired action here, such as navigating to a different page
       });
-      this.chart.render();
+
 
     }
   }

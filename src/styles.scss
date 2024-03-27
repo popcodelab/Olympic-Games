@@ -2,6 +2,13 @@ html, body { height: 100%;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-toolbar-title {
+  font-size: 32px;
   flex: 1; /* Text takes up all available space */
   text-align: center; /* Center the text horizontally */
+  align-items: center; /* Vertically center the content */
+}
+
+/* Select the legend item and set the font size */
+.canvasjs-chart-legend {
+  font-size: 12px !important; /* Adjust the font size as needed */
 }

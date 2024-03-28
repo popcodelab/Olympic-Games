@@ -23,9 +23,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     title: {
       text: 'Medals per Country'
     },
-    legend: {
-      fontSize: 12, // This property doesn't affect the font size directly
-    },
+
     theme: 'light1', // "light1", "dark1", "dark2"
     axisX: {
       title: "Year"
@@ -61,7 +59,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
+    // this.chart.title.set("fontColor", "#F084C2");
+    // this.chart.title.set("fontSize", "12");
+    this.chart.title.remove();
     this.removeCredits();
 }
 

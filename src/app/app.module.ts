@@ -11,6 +11,7 @@ import {AsyncPipe} from "@angular/common";
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule, MatIconRegistry} from "@angular/material/icon";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -27,8 +28,9 @@ import {MatIconModule, MatIconRegistry} from "@angular/material/icon";
     AsyncPipe,
     CanvasJSAngularChartsModule,
     MatToolbarModule,
+    MatCardModule,
+    MatIconModule,
     MatButtonModule,
-    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

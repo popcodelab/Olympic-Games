@@ -1,14 +1,14 @@
 import {AfterViewInit, Component, ElementRef, OnInit, Renderer2} from '@angular/core';
-import { Observable} from 'rxjs';
-import { OlympicService } from '../../core/services/olympic.service';
-import { Olympic } from "../../core/models/Olympic";
+import {Observable} from 'rxjs';
+import {OlympicService} from '../../core/services/olympic.service';
+import {Olympic} from "../../core/models/Olympic";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit {
 
   public olympicsData$: Observable<Olympic[]> | undefined;
   public chart: any;
@@ -17,13 +17,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   private dataPoints: any[] = [];
 
 
-
   pieChartOptions = {
     animationEnabled: true,
     title: {
       text: 'Medals per Country'
     },
-
     theme: 'light1', // "light1", "dark1", "dark2"
     axisX: {
       title: "Year"
@@ -34,8 +32,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     data: [
       {
         type: 'pie',
-        click: function(e:any){
-          alert(  e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " } - index : " + e.dataSeries.index  );
+        click: function (e: any) {
+          alert(e.dataSeries.type + ", dataPoint { x:" + e.dataPoint.x + ", y: " + e.dataPoint.y + " } - index : " + e.dataSeries.index);
         },
         dataPoints: this.dataPoints,
       },
@@ -47,26 +45,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef,
-    private olympicService: OlympicService) {
+    private renderer: Renderer2, //  provides a way to interact with the DOM
+    private elementRef: ElementRef, // the ElementRef references the canvas element where the chart is rendered
+    private olympicService: OlympicService) { // Service injection
   }
+
   ngOnInit(): void {
     this.olympicsData$ = this.olympicService.getOlympics();
     this.populateChart();
-    this.chart.render();
-
   }
 
-  ngAfterViewInit(): void {
-    // this.chart.title.set("fontColor", "#F084C2");
-    // this.chart.title.set("fontSize", "12");
-    this.chart.title.remove();
-    this.removeCredits();
-}
-
-
-  populateChart() {
+  /*
+  Populates the chart with the data from the service
+   */
+  private populateChart() {
     if (this.olympicsData$) {
       this.olympicsData$.subscribe(
         olympics => {
@@ -76,25 +68,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
             for (let index = 0; index < olympics.length; index++) {
               const dataPoint = {
                 x: index,
-                y: (this.chartData[index]).participations.reduce((medals, val) => medals + val.medalsCount, 0) ,
+                y: (this.chartData[index]).participations.reduce((medals, val) => medals + val.medalsCount, 0),
                 label: this.chartData[index].country
               };
               this.dataPoints.push(dataPoint);
             }
           }
+          this.chart.title.remove();
+          this.chart.render();
+          this.removeCredits();
         }
       );
-      // Add click event handler for data points
-      this.chart.data[0].set("click", (e: any) => {
-        console.log("Clicked on data point:", e.dataPoint.label);
-        // Perform desired action here, such as navigating to a different page
-      });
-
-
     }
   }
 
-  private removeCredits(){
+  /*
+  Remove the CanvasJS credits ;)
+   */
+  private removeCredits() {
     const elementToRemove = this.elementRef.nativeElement.querySelector('.canvasjs-chart-credit');
     if (elementToRemove) {
       this.renderer.removeChild(elementToRemove.parentNode, elementToRemove);

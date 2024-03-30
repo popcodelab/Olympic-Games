@@ -11,7 +11,6 @@ export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
   // We use the BehaviorSubject rather a simple Observable because we need to store the current value and
   // to initialize the stream
-  //private olympics$ = new BehaviorSubject<any>(undefined);
 
   private olympics$:BehaviorSubject<Olympic[]> = new BehaviorSubject<Olympic[]>([]);
 

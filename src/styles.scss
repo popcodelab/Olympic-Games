@@ -1,5 +1,10 @@
-html, body { height: 100%;}
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  margin: 0;
+  font-family: Roboto,
+  "Helvetica Neue",
+  sans-serif;
+}
 
 .mat-toolbar-title {
   font-size: 32px;
@@ -8,3 +13,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   align-items: center; /* Vertically center the content */
 }
 
+.center-card-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.component-container {
+  width: 90%; /* Force the router-outlet to take 90% of the width */
+  padding: 1em
+}
+
+.cards-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around; /* Distribute items horizontally */
+}
+
+.details-card-title{
+  font-size: 12px;
+}

@@ -3,17 +3,25 @@ import {EMPTY, find, map, Observable} from 'rxjs';
 import {OlympicService} from '../../core/services/olympic.service';
 import {Olympic} from "../../core/models/Olympic";
 import {Participation} from "../../core/models/Participation";
+import {OlympicsSumup} from "../../core/models/OlympicsSumup";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 
   public olympicsData$: Observable<Olympic[]> | undefined;
   public chart: any;
   isButtonVisible = false;
-  chartTitle="Medals per country";
+  chartTitle = "Medals per country";
+  isDetailsVisible: boolean = false;
+  detailsTotals:OlympicsSumup  = {
+    participations: 0,
+    medals: 0,
+    athletes: 0
+  };
 
   private mainDataPoints: any[] = [];
   private detailsDataPoints: any[] = [];
@@ -22,13 +30,16 @@ export class HomeComponent implements OnInit {
 
  Details : Back button event handler
    */
-  handleClick(event: Event) {
-    this.chartTitle="Medals per country";
+  handleClick() {
+    this.chartTitle = "Medals per country";
     this.chart.options = this.mainPieChartOptions;
     this.chart.options.data.dataPoints = this.mainDataPoints;
     this.chart.render();
     this.isButtonVisible = false;
+    this.isDetailsVisible = false;
+
   }
+
 
   /*
   Chart : Pie slice click handler
@@ -38,6 +49,7 @@ export class HomeComponent implements OnInit {
     this.chart.options = this.detailsLineChartOptions;
     this.populateDetailsChart(e.dataPoint.x + 1);
     this.isButtonVisible = true;
+    this.isDetailsVisible = true;
   }
 
   getParticipationDetailsByCountryId(countryId: number): Observable<Participation[] | undefined> {
@@ -45,7 +57,6 @@ export class HomeComponent implements OnInit {
       return this.olympicsData$.pipe(
         find((olympics: Olympic[]) => olympics.some((olympic) => olympic.id === countryId)),
         map((olympics) => {
-          console.log('seeking ....')
           const olympic: Olympic | undefined = olympics?.find((o) => o.id === countryId);
           const participationDetails: Participation[] | undefined = [];
 
@@ -54,7 +65,6 @@ export class HomeComponent implements OnInit {
               participationDetails.push(participation);
             });
           }
-          console.log(`Participation count : ${participationDetails.length}`);
           return participationDetails;
         })
       );
@@ -93,14 +103,14 @@ export class HomeComponent implements OnInit {
       text: 'Medal count per year'
     },
     axisX: {
-      title:"year",
+      title: "years",
     },
     axisY: {
       title: "Medal count",
 
     },
     data: [{
-      type:"line",
+      type: "line",
       toolTipContent: "<div>{label}<hr/>medals: {y}</div>",
       dataPoints: this.detailsDataPoints
     }],
@@ -110,23 +120,31 @@ export class HomeComponent implements OnInit {
   Populates line chart with participations data
    */
   private populateDetailsChart(countryId: number) {
-    console.log(`countryId : ${countryId}`);
     const countryParticipation$: Observable<Participation[] | undefined> = this.getParticipationDetailsByCountryId(countryId);
     if (countryParticipation$) {
       //this.chart.options=this.detailsLineChartOptions;
       countryParticipation$.subscribe(
         (participations) => {
           if (participations) {
+            let medalsCount=0;
+            let athletesCount = 0;
+            let participationsCount = 0;
             for (let index = 0; index < participations.length; index++) {
               const dataPoint = {
                 label: participations[index].year, // do not use x !! it will interpolates the missing years🥵
                 y: participations[index].medalsCount,
               };
-              console.log(`participation id : ${participations[index].id}`);
+              participationsCount++;
+              athletesCount+=participations[index].athleteCount;
+              medalsCount+=participations[index].medalsCount;
               this.detailsDataPoints.push(dataPoint);
             }
+              this.detailsTotals = {
+                medals: medalsCount,
+                athletes: athletesCount,
+                participations: participationsCount
+              };
           }
-          console.log(JSON.stringify(this.detailsDataPoints));
           this.chart.render();
           this.chart.title.remove();
           this.removeCredits();
@@ -136,29 +154,8 @@ export class HomeComponent implements OnInit {
   }
 
   /*
-  Gets the chart instance
-   */
-  getChartInstance(chart: object) {
-    this.chart = chart;
-  }
-
-  constructor(
-    private renderer: Renderer2, //  provides a way to interact with the DOM
-    private elementRef: ElementRef, // the ElementRef references the canvas element where the chart is rendered
-    private olympicService: OlympicService) { // Service injection
-  }
-
-  /*
-   Called once Angular has initialized all data-bound properties of a directive or component.
-   */
-  ngOnInit(): void {
-    this.olympicsData$ = this.olympicService.getOlympics();
-    this.populateMainChart();
-  }
-
-  /*
-  Populates the chart with the data from the service
-   */
+Populates the chart with the data from the service
+ */
   private populateMainChart() {
     if (this.olympicsData$) {
       this.olympicsData$.subscribe(
@@ -181,6 +178,29 @@ export class HomeComponent implements OnInit {
         }
       );
     }
+  }
+
+
+  constructor(
+    private renderer: Renderer2, //  provides a way to interact with the DOM
+    private elementRef: ElementRef, // the ElementRef references the canvas element where the chart is rendered
+    private olympicService: OlympicService) { // Service injection
+  }
+
+  /*
+ Gets the chart instance
+  */
+  getChartInstance(chart: object) {
+    this.chart = chart;
+  }
+
+  /*
+   Called once Angular has initialized all data-bound properties of a directive or component.
+   */
+  ngOnInit(): void {
+    this.olympicsData$ = this.olympicService.getOlympics();
+    this.populateMainChart();
+
   }
 
   /*

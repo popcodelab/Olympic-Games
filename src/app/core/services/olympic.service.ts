@@ -2,20 +2,24 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
-import {Olympic} from "../models/Olympic";
+import {Olympic} from "../models/olympic.model";
+import {ConfigService} from "./config.service";
 
 @Injectable({
   providedIn: 'root', // Scope : Application
 })
 export class OlympicService {
-  private olympicUrl = './assets/mock/olympic.json';
+  private olympicUrl = '';
   // We use the BehaviorSubject rather a simple Observable because we need to store the current value and
   // to initialize the stream
 
   private olympics$:BehaviorSubject<Olympic[]> = new BehaviorSubject<Olympic[]>([]);
 
-  constructor(private http: HttpClient) { }
-
+  constructor(
+    private http: HttpClient,
+    private appConfigService: ConfigService) {
+    this.olympicUrl = this.appConfigService.getApiUrl();
+  }
 
   /*
   Fetch the olympic data from the mock

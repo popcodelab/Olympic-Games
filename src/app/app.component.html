@@ -1,9 +1,13 @@
-<mat-toolbar color="primary" >
- <div [ngClass]="{'mat-toolbar-title': true}">
- <mat-icon svgIcon="rewarded_ads" style="padding-right:10px"></mat-icon>
-  <span>Olympic Games app</span>
-  <mat-icon svgIcon="rewarded_ads" style="padding-left:10px"></mat-icon>
- </div>
-</mat-toolbar>
+<div class="container">
+  <mat-toolbar color="primary">
+    <div class="mat-toolbar-title">
+      <mat-icon svgIcon="rewarded_ads" class="cup-mat-icon cup-mat-icon-left" ></mat-icon>
+      <div class="app-title">{{ applicationTitle | titlecase  }}</div>
+      <mat-icon svgIcon="rewarded_ads" class="cup-mat-icon cup-mat-icon-right"></mat-icon>
+    </div>
+  </mat-toolbar>
+  <div class="component-container">
+    <router-outlet></router-outlet>
+  </div>
 
-<router-outlet></router-outlet>
+</div>

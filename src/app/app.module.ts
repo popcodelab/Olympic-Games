@@ -12,12 +12,16 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule, MatIconRegistry} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
+import { ChartTitleBarComponent } from './pages/home/chart-title-bar/chart-title-bar.component';
+import { ChartTitleCardsDirective } from './directives/chart-title-cards-directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ChartTitleBarComponent,
+    ChartTitleCardsDirective
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,7 @@ import {MatCardModule} from "@angular/material/card";
     MatToolbarModule,
     MatCardModule,
     MatIconModule,
-    MatButtonModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

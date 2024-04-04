@@ -2,24 +2,46 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
-import {Olympic} from "../models/Olympic";
+import {Country} from "../models/country.model";
+import {ConfigService} from "./config.service";
 
 @Injectable({
   providedIn: 'root', // Scope : Application
 })
+
+/**
+ * Provides the Olympic Games data for the application using a JSON file
+ *
+ * @Author Pignon Pierre-Olivier
+ */
 export class OlympicService {
-  private olympicUrl = './assets/mock/olympic.json';
-  // We use the BehaviorSubject rather a simple Observable because we need to store the current value and
-  // to initialize the stream
-  //private olympics$ = new BehaviorSubject<any>(undefined);
+  /** @Type {string} JSON file url */
+  private olympicUrl: string = '';
+  /**
+   * We use the BehaviorSubject rather a simple Observable because we need to store the current value and to initialize the stream
+   *
+   * @Type {olympics$:BehaviorSubject<Country[]>} : data
+   * @private
+   */
+  private olympics$:BehaviorSubject<Country[]> = new BehaviorSubject<Country[]>([]);
 
-  private olympics$:BehaviorSubject<Olympic[]> = new BehaviorSubject<Olympic[]>([]);
+  /**
+   * Constructs a new instance of the class.
+   *
+   * @param {HttpClient} http - The HttpClient service.
+   * @param {ConfigService} appConfigService - The ConfigService service.
+   */
+  constructor(
+    private http: HttpClient,
+    private appConfigService: ConfigService) {
+    this.olympicUrl = this.appConfigService.getApiUrl();
+  }
 
-  constructor(private http: HttpClient) { }
-
-
-  /*
-  Fetch the olympic data from the mock
+  /**
+   * Loads initial data from the Olympic API from the mock JSON file.
+   *
+   * @returns An Observable that emits the response from the API call.
+   *          If an error occurs, it emits an error message and propagates the error.
    */
   loadInitialData(): Observable<any> {
     return this.http.get<any>(this.olympicUrl).pipe(
@@ -34,10 +56,12 @@ export class OlympicService {
     );
   }
 
-  /*
-  Return the olympic data as Observable
+  /**
+   * Returns an Observable that emits an array of Olympic objects.
+   *
+   * @returns {Observable<Country[]>} - An Observable that emits an array of Olympic objects.
    */
-  getOlympics():Observable<Olympic[]> {
+  getOlympics():Observable<Country[]> {
     return this.olympics$.asObservable();
   }
 }

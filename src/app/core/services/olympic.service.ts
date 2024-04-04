@@ -1,31 +1,67 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
+import {Country} from "../models/country.model";
+import {ConfigService} from "./config.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root', // Scope : Application
 })
+
+/**
+ * Provides the Olympic Games data for the application using a JSON file
+ *
+ * @Author Pignon Pierre-Olivier
+ */
 export class OlympicService {
-  private olympicUrl = './assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<any>(undefined);
+  /** @Type {string} JSON file url */
+  private olympicUrl: string = '';
+  /**
+   * We use the BehaviorSubject rather a simple Observable because we need to store the current value and to initialize the stream
+   *
+   * @Type {olympics$:BehaviorSubject<Country[]>} : data
+   * @private
+   */
+  private olympics$:BehaviorSubject<Country[]> = new BehaviorSubject<Country[]>([]);
 
-  constructor(private http: HttpClient) {}
+  /**
+   * Constructs a new instance of the class.
+   *
+   * @param {HttpClient} http - The HttpClient service.
+   * @param {ConfigService} appConfigService - The ConfigService service.
+   */
+  constructor(
+    private http: HttpClient,
+    private appConfigService: ConfigService) {
+    this.olympicUrl = this.appConfigService.getApiUrl();
+  }
 
-  loadInitialData() {
+  /**
+   * Loads initial data from the Olympic API from the mock JSON file.
+   *
+   * @returns An Observable that emits the response from the API call.
+   *          If an error occurs, it emits an error message and propagates the error.
+   */
+  loadInitialData(): Observable<any> {
     return this.http.get<any>(this.olympicUrl).pipe(
       tap((value) => this.olympics$.next(value)),
-      catchError((error, caught) => {
-        // TODO: improve error handling
+      catchError((error:any ) => {
         console.error(error);
-        // can be useful to end loading state and let the user know something went wrong
-        this.olympics$.next(null);
-        return caught;
+        // Set BehaviorSubject to null to indicate an error
+        this.olympics$.next(null!);
+        // Return throwError using errorFactory to propagate the error
+        return throwError(() => new error('An error has occurred fetching the data. Please try again later.',error));
       })
     );
   }
 
-  getOlympics() {
+  /**
+   * Returns an Observable that emits an array of Olympic objects.
+   *
+   * @returns {Observable<Country[]>} - An Observable that emits an array of Olympic objects.
+   */
+  getOlympics():Observable<Country[]> {
     return this.olympics$.asObservable();
   }
 }

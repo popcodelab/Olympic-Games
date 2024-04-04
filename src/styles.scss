@@ -1,4 +1,66 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  margin: 0;
+  font-family: Roboto,
+  "Helvetica Neue",
+  sans-serif;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.cup-mat-icon-left {
+  padding-right: 0.5em;
+}
+
+.cup-mat-icon-right {
+  padding-left: 0.5em;
+}
+
+.cup-mat-icon {
+  //padding-bottom:0.1em;
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-flex !important;
+}
+
+.center-card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.component-container {
+  width: 90%; /* Force the router-outlet to take 90% of the width */
+  padding: 1em
+}
+
+.cards-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around; /* Distribute items horizontally */
+}
+
+.chart-title{
+  font-size: 2vw!important;
+}
+
+.details-card-title {
+  font-size: 1vw;
+}
+
+.app-title {
+  display: inline-block;
+}
+
+.mat-toolbar-title {
+  font-size: 3vw;
+  flex: 1; /* Text takes up all available space */
+  text-align: center; /* Center the text horizontally */
+}
+

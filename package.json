@@ -1,12 +1,16 @@
 {
-  "name": "olympic-games-starter",
-  "version": "0.0.0",
+  "name": "olympic-games",
+  "description": "OpenClassroom - Project 2 - Angular - Displays Olympic games result using Charts",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "compodoc": "npx compodoc -p tsconfig.doc.json",
+    "compodoc:serve": "npx compodoc -p tsconfig.doc.json -s",
+    "compodoc:serve:watch": "npx compodoc -p tsconfig.doc.json -s -w"
   },
   "private": true,
   "dependencies": {

@@ -1,39 +1,122 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { OlympicService } from '../../core/services/olympic.service';
-import { Olympic } from "../../core/models/Olympic";
-import { CanvasJSChart } from "@canvasjs/angular-charts";
-
+import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
+import {EMPTY, find, map, Observable} from 'rxjs';
+import {OlympicService} from '../../core/services/olympic.service';
+import {Participation} from "../../core/models/participation";
+import {OlympicsSumupModel} from "../../core/models/olympicsSumup.model";
+import {Country} from "../../core/models/country.model";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-
   styleUrls: ['./home.component.scss']
-
 })
+/**
+ * @author Pierre-Olivier Pignon
+ */
 export class HomeComponent implements OnInit {
-
-  public olympicsData$: Observable<Olympic[]> | undefined;
-  public chart: any;
-
-  private chartData: Olympic[] = [];
-  private labels: any[] = [];
-  private medalsCount: any[] = [];
-  private colors: any[] = [];
-
-  private dataPoints: any[] = [];
+  /** @Type {any[]} : Stores the datapoints of the pie chart "Medals per country" which is the main chart */
+  private mainDataPoints: any[] = [];
+  /** @Type {any[]} : Stores the datapoints of the line chart number of medals per edition (country details) */
+  private detailsDataPoints: any[] = [];
+  /** @Type {olympicsData$: Observable<Country[]> | undefined} : Olympic games data from the service */
+  private olympicsData$: Observable<Country[]> | undefined;
 
 
+  chart: any;
+  /** @Type {boolean} : Back button on the detail chart */
+   isBackButtonVisible = false;
+   /** @Type {string} */
+  chartTitle = "Medals per country";
+  /** @Type {boolean} : Shows or hides the detail panel if the visitor is on the detail chart **/
+  isDetailsVisible: boolean = false;
+  /** @Type {OlympicsSumupModel} - Stores the totals of a country */
+  detailsTotals: OlympicsSumupModel = {
+    participations: 0,
+    medals: 0,
+    athletes: 0
+  };
 
-  pieChartOptions = {
+  /**
+   * Details : Back button event handler
+   * Updates the chart title, chart options, data points, and displays the chart.
+   * Also removes credits, hides the back button, and details.
+   *
+   * @return {void}
+   */
+  handleClick() {
+    this.chartTitle = "Medals per country";
+    this.chart.options = this.mainPieChartOptions;
+    this.chart.options.data.dataPoints = this.mainDataPoints;
+    this.chart.render();
+    this.removeCredits();
+    this.isBackButtonVisible = false;
+    this.isDetailsVisible = false;
+  }
+
+  /**
+   * Handler function for moving to details section.
+   *
+   * @param {any} e - The event object
+   * @returns {void}
+   */
+  moveToDetailsHandler = (e: any) => {
+    this.chartTitle = `${e.dataPoint.label} details`;
+    this.chart.options = this.detailsLineChartOptions;
+    this.populateDetailsChart(e.dataPoint.x + 1);
+    this.isBackButtonVisible = true;
+    this.isDetailsVisible = true;
+  }
+
+  /**
+   * Get the participation of a country using its Id
+   * @param {number} countryId  must be a number
+   */
+  getParticipationDetailsByCountryId(countryId: number): Observable<Participation[] | undefined> {
+    if (this.olympicsData$) {
+      return this.olympicsData$.pipe(
+        find((countries: Country[]) => countries.some((country) => country.id === countryId)),
+        map((countries) => {
+          const country: Country | undefined = countries?.find((o) => o.id === countryId);
+          const participationDetails: Participation[] | undefined = [];
+
+          if (country && country.participations) {
+            country.participations.forEach((participation: Participation ) => {
+              participationDetails.push(participation);
+            });
+          }
+          return participationDetails;
+        })
+      );
+    } else {
+      console.log("No olympic data found !")
+      return EMPTY;
+    }
+  }
+
+  /**
+   * Options for the main pie chart.
+   * @type {Object}
+   * @property {boolean} animationEnabled - Specifies whether to enable animation for the chart.
+   * @property {Object} title - The title configuration options for the chart.
+   * @property {string} title.text - The title of the chart.
+   * @property {string} theme - The theme for the chart.
+   * @property {Object} axisX - The configuration options for the X-axis.
+   * @property {string} axisX.title - The title of the X-axis.
+   * @property {Object} axisY - The configuration options for the Y-axis.
+   * @property {string} axisY.title - The title of the Y-axis.
+   * @property {Array} data - The data configuration options for the chart.
+   * @property {string} data.type - The type of chart.
+   * @property {function} data.click - The click event handler for the chart.
+   * @property {Array} data.dataPoints - The data points for the chart.
+   */
+  mainPieChartOptions = {
     animationEnabled: true,
     title: {
-      text: 'Medals per Country',
+      text: 'Medals per Country'
     },
-    theme: 'light2', // "light1", "dark1", "dark2"
+    theme: 'light1',
     axisX: {
-      title: "Year"
+      title: "Edition"
     },
     axisY: {
       title: "Medals"
@@ -41,72 +124,158 @@ export class HomeComponent implements OnInit {
     data: [
       {
         type: 'pie',
-        click: function(e:any){
-          alert(  e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " } - index : " + e.dataSeries.index  );
-        },
-        dataPoints: this.dataPoints,
+        click: this.moveToDetailsHandler,
+        dataPoints: this.mainDataPoints,
       },
     ],
   };
 
-  getChartInstance(chart: object) {
-    this.chart = chart;
-  }
+  /**
+   * Object representing the options for a line chart.
+   *
+   * @typedef {Object} detailsLineChartOptions
+   * @property {Object} title - The chart title options.
+   * @property {string} title.text - The text of the chart title.
+   * @property {Object} axisX - The X-axis options.
+   * @property {string} axisX.title - The title of the X-axis.
+   * @property {Object} axisY - The Y-axis options.
+   * @property {string} axisY.title - The title of the Y-axis.
+   * @property {Array} data - The data series options.
+   * @property {string} data.type - The type of chart series (line).
+   * @property {string} data.toolTipContent - The content of the tooltip for each data point.
+   * @property {Array} data.dataPoints - The data points for the chart series.
+   */
+  detailsLineChartOptions = {
+    title: {
+      text: 'Medal count per edition'
+    },
+    axisX: {
+      title: "Editions",
+    },
+    axisY: {
+      title: "Medal count",
 
+    },
+    data: [{
+      type: "line",
+      toolTipContent: "<div>{label}<hr/>medals: {y}</div>",
+      dataPoints: this.detailsDataPoints
+    }],
+  };
+
+
+  /**
+   * Class constuctor
+   * @param {Renderer2} renderer - provides a way to interact with the DOM
+   * @param {ElementRef} elementRef - references the canvas element where the chart is rendered
+   * @param {OlympicService} olympicService - Injects the OlympicService which provides the data for the charts
+   */
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private olympicService: OlympicService) {
   }
+
+  /**
+   * Retrieves the CanvasJS chart instance
+   * @param {object} chart
+   */
+  getChartInstance(chart: object) {
+    this.chart = chart;
+  }
+
+  /**
+   * Initializes the component. This method is automatically called after component initialization.
+   * It retrieves the Olympics games data using the olympicService.getOlympics() method and populates the main chart.
+   * @return {void}
+   */
   ngOnInit(): void {
     this.olympicsData$ = this.olympicService.getOlympics();
-    this.populateChart();
+    this.populateMainChart();
 
   }
 
-  ngAfterViewInit(){
-    this.removeCredits();
-  }
-
-  populateChart() {
-    if (this.olympicsData$) {
-      this.olympicsData$.subscribe(
-        olympics => {
-          this.chartData = olympics;
-          if (olympics) {
-
-            for (let i = 0; i < olympics.length; i++) {
-              const index = i;
-              const label = this.chartData[i].country;
-              this.labels.push(label);
-              const count = (this.chartData[i]).participations.reduce((medals, val) => medals + val.medalsCount, 0);
-              this.medalsCount.push(count);
-              const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-              this.colors.push(color);
-              console.table(this.colors);
-              console.table(this.labels);
-              console.table(this.medalsCount);
-              console.log('Observable emitted the next value: ' + olympics.length);
-              const dataPoint = {   y: count , label: label, index:index};
-              this.dataPoints.push(dataPoint);
+  /**
+   * Populates the details chart with data for a specific country.
+   *
+   * @param {number} countryId - The ID of the country.
+   * @private
+   */
+  private populateDetailsChart(countryId: number) {
+    const countryParticipation$: Observable<Participation[] | undefined> = this.getParticipationDetailsByCountryId(countryId);
+    if (countryParticipation$) {
+      //this.chart.options=this.detailsLineChartOptions;
+      countryParticipation$.subscribe(
+        (participations) => {
+          if (participations) {
+            let medalsCount = 0;
+            let athletesCount = 0;
+            let participationsCount = 0;
+            for (let index = 0; index < participations.length; index++) {
+              const dataPoint = {
+                label: participations[index].year, // do not use x !! it will interpolate the missing years🥵
+                y: participations[index].medalsCount,
+              };
+              participationsCount++;
+              athletesCount += participations[index].athleteCount;
+              medalsCount += participations[index].medalsCount;
+              this.detailsDataPoints.push(dataPoint);
             }
+            this.detailsTotals = {
+              medals: medalsCount,
+              athletes: athletesCount,
+              participations: participationsCount
+            };
           }
+          this.chart.render();
+          this.chart.title.remove();
+          this.removeCredits();
         }
       );
-      // Add click event handler for data points
-      this.chart.data[0].set("click", (e: any) => {
-        console.log("Clicked on data point:", e.dataPoint.label);
-        // Perform desired action here, such as navigating to a different page
-      });
-      this.chart.render();
-
     }
   }
 
-  private removeCredits(){
+  /**
+   * Populates the chart with the data from the service
+   *
+   * @private
+   */
+  private populateMainChart() {
+    if (this.olympicsData$) {
+      this.olympicsData$.subscribe(
+        (countries: Country[]) => {
+          if (countries) {
+
+            for (let index = 0; index < countries.length; index++) {
+              const dataPoint = {
+                x: index,
+                y: (countries[index]).participations.reduce((medals, val) => medals + val.medalsCount, 0),
+                label: countries[index].country,
+                name: countries[index].country
+              };
+              this.mainDataPoints.push(dataPoint);
+            }
+          }
+          this.chart.title.remove();
+          this.chart.render();
+          this.removeCredits();
+        }
+      );
+    }
+  }
+
+  /**
+   * Removes the credits from the chart element.
+   *
+   * @private
+   *
+   * @returns {void}
+   */
+  private removeCredits() {
     const elementToRemove = this.elementRef.nativeElement.querySelector('.canvasjs-chart-credit');
     if (elementToRemove) {
       this.renderer.removeChild(elementToRemove.parentNode, elementToRemove);
     }
   }
+
 }

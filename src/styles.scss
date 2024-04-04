@@ -6,14 +6,22 @@ body {
   sans-serif;
 }
 
-.mat-toolbar-title {
-  font-size: 32px;
-  flex: 1; /* Text takes up all available space */
-  text-align: center; /* Center the text horizontally */
-  align-items: center; /* Vertically center the content */
+.cup-mat-icon-left {
+  padding-right: 0.5em;
 }
 
-.center-card-content{
+.cup-mat-icon-right {
+  padding-left: 0.5em;
+}
+
+.cup-mat-icon {
+  //padding-bottom:0.1em;
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-flex !important;
+}
+
+.center-card-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,13 +39,28 @@ body {
   padding: 1em
 }
 
-.cards-row{
+.cards-row {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around; /* Distribute items horizontally */
 }
 
-.details-card-title{
-  font-size: 12px;
+.chart-title{
+  font-size: 2vw!important;
 }
+
+.details-card-title {
+  font-size: 1vw;
+}
+
+.app-title {
+  display: inline-block;
+}
+
+.mat-toolbar-title {
+  font-size: 3vw;
+  flex: 1; /* Text takes up all available space */
+  text-align: center; /* Center the text horizontally */
+}
+

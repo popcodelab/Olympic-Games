@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
 import {EMPTY, find, map, Observable} from 'rxjs';
 import {OlympicService} from '../../core/services/olympic.service';
-import {ParticipationModel} from "../../core/models/participation.model";
+import {Participation} from "../../core/models/participation";
 import {OlympicsSumupModel} from "../../core/models/olympicsSumup.model";
-import {Olympic} from "../../core/models/olympic.model";
+import {Country} from "../../core/models/country.model";
 
 @Component({
   selector: 'app-home',
@@ -18,8 +18,8 @@ export class HomeComponent implements OnInit {
   private mainDataPoints: any[] = [];
   /** @Type {any[]} : Stores the datapoints of the line chart number of medals per edition (country details) */
   private detailsDataPoints: any[] = [];
-  /** @Type {olympicsData$: Observable<Olympic[]> | undefined} : Olympic games data from the service */
-  private olympicsData$: Observable<Olympic[]> | undefined;
+  /** @Type {olympicsData$: Observable<Country[]> | undefined} : Olympic games data from the service */
+  private olympicsData$: Observable<Country[]> | undefined;
 
 
   chart: any;
@@ -71,16 +71,16 @@ export class HomeComponent implements OnInit {
    * Get the participation of a country using its Id
    * @param {number} countryId  must be a number
    */
-  getParticipationDetailsByCountryId(countryId: number): Observable<ParticipationModel[] | undefined> {
+  getParticipationDetailsByCountryId(countryId: number): Observable<Participation[] | undefined> {
     if (this.olympicsData$) {
       return this.olympicsData$.pipe(
-        find((olympics: Olympic[]) => olympics.some((olympic) => olympic.id === countryId)),
-        map((olympics) => {
-          const olympic: Olympic | undefined = olympics?.find((o) => o.id === countryId);
-          const participationDetails: ParticipationModel[] | undefined = [];
+        find((countries: Country[]) => countries.some((country) => country.id === countryId)),
+        map((countries) => {
+          const country: Country | undefined = countries?.find((o) => o.id === countryId);
+          const participationDetails: Participation[] | undefined = [];
 
-          if (olympic && olympic.participations) {
-            olympic.participations.forEach((participation: ParticipationModel ) => {
+          if (country && country.participations) {
+            country.participations.forEach((participation: Participation ) => {
               participationDetails.push(participation);
             });
           }
@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
     },
     theme: 'light1',
     axisX: {
-      title: "Year"
+      title: "Edition"
     },
     axisY: {
       title: "Medals"
@@ -147,10 +147,10 @@ export class HomeComponent implements OnInit {
    */
   detailsLineChartOptions = {
     title: {
-      text: 'Medal count per year'
+      text: 'Medal count per edition'
     },
     axisX: {
-      title: "years",
+      title: "Editions",
     },
     axisY: {
       title: "Medal count",
@@ -186,7 +186,7 @@ export class HomeComponent implements OnInit {
 
   /**
    * Initializes the component. This method is automatically called after component initialization.
-   * It retrieves the Olympics data using the olympicService.getOlympics() method and populates the main chart.
+   * It retrieves the Olympics games data using the olympicService.getOlympics() method and populates the main chart.
    * @return {void}
    */
   ngOnInit(): void {
@@ -202,7 +202,7 @@ export class HomeComponent implements OnInit {
    * @private
    */
   private populateDetailsChart(countryId: number) {
-    const countryParticipation$: Observable<ParticipationModel[] | undefined> = this.getParticipationDetailsByCountryId(countryId);
+    const countryParticipation$: Observable<Participation[] | undefined> = this.getParticipationDetailsByCountryId(countryId);
     if (countryParticipation$) {
       //this.chart.options=this.detailsLineChartOptions;
       countryParticipation$.subscribe(
@@ -213,7 +213,7 @@ export class HomeComponent implements OnInit {
             let participationsCount = 0;
             for (let index = 0; index < participations.length; index++) {
               const dataPoint = {
-                label: participations[index].year, // do not use x !! it will interpolates the missing years🥵
+                label: participations[index].year, // do not use x !! it will interpolate the missing years🥵
                 y: participations[index].medalsCount,
               };
               participationsCount++;
@@ -243,15 +243,15 @@ export class HomeComponent implements OnInit {
   private populateMainChart() {
     if (this.olympicsData$) {
       this.olympicsData$.subscribe(
-        (olympics: Olympic[]) => {
-          if (olympics) {
+        (countries: Country[]) => {
+          if (countries) {
 
-            for (let index = 0; index < olympics.length; index++) {
+            for (let index = 0; index < countries.length; index++) {
               const dataPoint = {
                 x: index,
-                y: (olympics[index]).participations.reduce((medals, val) => medals + val.medalsCount, 0),
-                label: olympics[index].country,
-                name: olympics[index].country
+                y: (countries[index]).participations.reduce((medals, val) => medals + val.medalsCount, 0),
+                label: countries[index].country,
+                name: countries[index].country
               };
               this.mainDataPoints.push(dataPoint);
             }

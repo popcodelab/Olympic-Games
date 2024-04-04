@@ -1,12 +1,12 @@
 /**
- * Participation details of a country
+ * Defines a participation of a country at the olympic games
  *
  * @Author Pignon Pierre-Olivier
  */
-export interface ParticipationModel {
+export interface Participation {
   /** @Type {number} : Unique identifier of an edition */
   id: number;
-  /** @Type {number} :  */
+  /** @Type {number} : Olympic game edition */
   year: number;
   /** @Type {string} : City name */
   city: string;

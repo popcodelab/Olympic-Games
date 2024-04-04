@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
-import {Olympic} from "../models/olympic.model";
+import {Country} from "../models/country.model";
 import {ConfigService} from "./config.service";
 
 @Injectable({
@@ -20,10 +20,10 @@ export class OlympicService {
   /**
    * We use the BehaviorSubject rather a simple Observable because we need to store the current value and to initialize the stream
    *
-   * @Type {olympics$:BehaviorSubject<Olympic[]>} : data
+   * @Type {olympics$:BehaviorSubject<Country[]>} : data
    * @private
    */
-  private olympics$:BehaviorSubject<Olympic[]> = new BehaviorSubject<Olympic[]>([]);
+  private olympics$:BehaviorSubject<Country[]> = new BehaviorSubject<Country[]>([]);
 
   /**
    * Constructs a new instance of the class.
@@ -59,9 +59,9 @@ export class OlympicService {
   /**
    * Returns an Observable that emits an array of Olympic objects.
    *
-   * @returns {Observable<Olympic[]>} - An Observable that emits an array of Olympic objects.
+   * @returns {Observable<Country[]>} - An Observable that emits an array of Olympic objects.
    */
-  getOlympics():Observable<Olympic[]> {
+  getOlympics():Observable<Country[]> {
     return this.olympics$.asObservable();
   }
 }

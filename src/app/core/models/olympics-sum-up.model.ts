@@ -1,9 +1,10 @@
 /**
 This entity is used to pass the summerized olympic data to the chart-titlebar component
+ @Interface
 
  @Author Pignon Pierre-Olivier
  */
-export interface OlympicsSumupModel {
+export interface OlympicsSumUpModel {
   /** @Type {number} : Participations count of a country */
   participations:number;
   /** @Type {number} : Medals count of a country */

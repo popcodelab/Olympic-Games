@@ -1,5 +1,6 @@
 /**
  * Defines a participation of a country at the olympic games
+ * @Interface
  *
  * @Author Pignon Pierre-Olivier
  */

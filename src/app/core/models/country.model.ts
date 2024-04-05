@@ -1,4 +1,4 @@
-import {Participation} from "./participation";
+import {Participation} from "./participation.model";
 
 /**
  * Represents a Country.
@@ -11,7 +11,7 @@ export interface Country {
   id: number;
   /** @Type {string} : Country name */
   country: string;
-  /** @Type {Participation[]} : Participation details */
+  /** @Type {Participation[]} : ParticipationModel details */
   participations: Participation[];
 }
 

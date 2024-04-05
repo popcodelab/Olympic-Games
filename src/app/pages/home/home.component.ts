@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
 import {EMPTY, find, map, Observable} from 'rxjs';
 import {OlympicService} from '../../core/services/olympic.service';
-import {Participation} from "../../core/models/participation";
-import {OlympicsSumupModel} from "../../core/models/olympicsSumup.model";
+import {Participation} from "../../core/models/participation.model";
+import {OlympicsSumUpModel} from "../../core/models/olympics-sum-up.model";
 import {Country} from "../../core/models/country.model";
 
 @Component({
@@ -11,30 +11,45 @@ import {Country} from "../../core/models/country.model";
   styleUrls: ['./home.component.scss']
 })
 /**
- * @author Pierre-Olivier Pignon
+ * @author Pignon Pierre-Olivier
  */
 export class HomeComponent implements OnInit {
-  /** @Type {any[]} : Stores the datapoints of the pie chart "Medals per country" which is the main chart */
-  private mainDataPoints: any[] = [];
-  /** @Type {any[]} : Stores the datapoints of the line chart number of medals per edition (country details) */
-  private detailsDataPoints: any[] = [];
+
   /** @Type {olympicsData$: Observable<Country[]> | undefined} : Olympic games data from the service */
   private olympicsData$: Observable<Country[]> | undefined;
 
-
-  chart: any;
   /** @Type {boolean} : Back button on the detail chart */
-   isBackButtonVisible = false;
-   /** @Type {string} */
-  chartTitle = "Medals per country";
+  isBackButtonVisible = false;
   /** @Type {boolean} : Shows or hides the detail panel if the visitor is on the detail chart **/
   isDetailsVisible: boolean = false;
-  /** @Type {OlympicsSumupModel} - Stores the totals of a country */
-  detailsTotals: OlympicsSumupModel = {
+
+  /** @Type {string} */
+  chartTitle = "Medals per country";
+  /** @Type {OlympicsSumUpModel} - Stores the totals of a country */
+  detailsTotals: OlympicsSumUpModel = {
     participations: 0,
     medals: 0,
     athletes: 0
   };
+
+  //#region "Variables for CanvasJS"
+
+  /**
+   * Depending on the chart type, the datapoint are different, so I decide to not create model object  and use "any" type
+   * to avoid to overhead the application model with CanvasJS objects instantiated only once in all the code
+   * I know that it was asked to not use any type, but I strongly think that's better in this case. It concerns only CanvasJS.
+   * Plus in the case of the line chart, the label would have been a number which is no sense ! year has to be a number Cf. populateDetailsChart() Code
+   */
+  /** @Type {any[]} : Stores the data points of the pie chart "Medals per country" which is the main chart */
+  private mainDataPoints: any[] = [];
+  /** @Type {any[]} : Stores the data points of the line chart number of medals per edition (country details) */
+  private detailsDataPoints: any[] = [];
+  /** @Type {any} : CanvasJS chart. Unknown type from TypeScript, so must be any */
+  chart: any;
+
+  //#endregion "Objects for CanvasJS"
+
+  //#region "Event handlers"
 
   /**
    * Details : Back button event handler
@@ -67,31 +82,9 @@ export class HomeComponent implements OnInit {
     this.isDetailsVisible = true;
   }
 
-  /**
-   * Get the participation of a country using its Id
-   * @param {number} countryId  must be a number
-   */
-  getParticipationDetailsByCountryId(countryId: number): Observable<Participation[] | undefined> {
-    if (this.olympicsData$) {
-      return this.olympicsData$.pipe(
-        find((countries: Country[]) => countries.some((country) => country.id === countryId)),
-        map((countries) => {
-          const country: Country | undefined = countries?.find((o) => o.id === countryId);
-          const participationDetails: Participation[] | undefined = [];
+  //#endregion "Event handlers"
 
-          if (country && country.participations) {
-            country.participations.forEach((participation: Participation ) => {
-              participationDetails.push(participation);
-            });
-          }
-          return participationDetails;
-        })
-      );
-    } else {
-      console.log("No olympic data found !")
-      return EMPTY;
-    }
-  }
+  //#region "Chart options"
 
   /**
    * Options for the main pie chart.
@@ -109,7 +102,14 @@ export class HomeComponent implements OnInit {
    * @property {function} data.click - The click event handler for the chart.
    * @property {Array} data.dataPoints - The data points for the chart.
    */
-  mainPieChartOptions = {
+  mainPieChartOptions: {
+    data: { dataPoints: any[]; type: string; click: (e: any) => void }[];
+    axisY: { title: string };
+    axisX: { title: string };
+    theme: string;
+    title: { text: string };
+    animationEnabled: boolean
+  } = {
     animationEnabled: true,
     title: {
       text: 'Medals per Country'
@@ -145,7 +145,12 @@ export class HomeComponent implements OnInit {
    * @property {string} data.toolTipContent - The content of the tooltip for each data point.
    * @property {Array} data.dataPoints - The data points for the chart series.
    */
-  detailsLineChartOptions = {
+  detailsLineChartOptions: {
+    data: { toolTipContent: string; dataPoints: any[]; type: string }[];
+    axisY: { title: string };
+    axisX: { title: string };
+    title: { text: string }
+  } = {
     title: {
       text: 'Medal count per edition'
     },
@@ -163,6 +168,7 @@ export class HomeComponent implements OnInit {
     }],
   };
 
+  //#endregion "Chart options"
 
   /**
    * Class constuctor
@@ -177,14 +183,6 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Retrieves the CanvasJS chart instance
-   * @param {object} chart
-   */
-  getChartInstance(chart: object) {
-    this.chart = chart;
-  }
-
-  /**
    * Initializes the component. This method is automatically called after component initialization.
    * It retrieves the Olympics games data using the olympicService.getOlympics() method and populates the main chart.
    * @return {void}
@@ -192,8 +190,43 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.olympicsData$ = this.olympicService.getOlympics();
     this.populateMainChart();
-
   }
+
+  /**
+   * Get the participation of a country using its Id
+   * @param {number} countryId  must be a number
+   */
+  getParticipationDetailsByCountryId(countryId: number): Observable<Participation[] | undefined> {
+    if (this.olympicsData$) {
+      return this.olympicsData$.pipe(
+        find((countries: Country[]) => countries.some((country: Country):boolean => country.id === countryId)),
+        map((countries: Country[] | undefined) => {
+          const country: Country | undefined = countries?.find((obj:Country): boolean => obj.id === countryId);
+          const participationDetails: Participation[] | undefined = [];
+
+          if (country && country.participations) {
+            country.participations.forEach((participation: Participation) => {
+              participationDetails.push(participation);
+            });
+          }
+          return participationDetails;
+        })
+      );
+    } else {
+      console.log("No olympic data found !")
+      return EMPTY;
+    }
+  }
+
+  /**
+   * Retrieves the CanvasJS chart instance
+   * @param {object} chart
+   */
+  getChartInstance(chart: object) {
+    this.chart = chart;
+  }
+
+  //#region "Populate charts methods"
 
   /**
    * Populates the details chart with data for a specific country.
@@ -204,15 +237,14 @@ export class HomeComponent implements OnInit {
   private populateDetailsChart(countryId: number) {
     const countryParticipation$: Observable<Participation[] | undefined> = this.getParticipationDetailsByCountryId(countryId);
     if (countryParticipation$) {
-      //this.chart.options=this.detailsLineChartOptions;
       countryParticipation$.subscribe(
-        (participations) => {
+        (participations: Participation[] | undefined) => {
           if (participations) {
-            let medalsCount = 0;
-            let athletesCount = 0;
-            let participationsCount = 0;
-            for (let index = 0; index < participations.length; index++) {
-              const dataPoint = {
+            let medalsCount: number = 0;
+            let athletesCount: number = 0;
+            let participationsCount: number = 0;
+            for (let index: number = 0; index < participations.length; index++) {
+              const dataPoint: { label: number, y: number } = {
                 label: participations[index].year, // do not use x !! it will interpolate the missing years🥵
                 y: participations[index].medalsCount,
               };
@@ -246,10 +278,10 @@ export class HomeComponent implements OnInit {
         (countries: Country[]) => {
           if (countries) {
 
-            for (let index = 0; index < countries.length; index++) {
-              const dataPoint = {
+            for (let index: number = 0; index < countries.length; index++) {
+              const dataPoint: { x: number; name: string; y: number; label: string } = {
                 x: index,
-                y: (countries[index]).participations.reduce((medals, val) => medals + val.medalsCount, 0),
+                y: (countries[index]).participations.reduce((medals: number, val: Participation) => medals + val.medalsCount, 0),
                 label: countries[index].country,
                 name: countries[index].country
               };
@@ -263,6 +295,8 @@ export class HomeComponent implements OnInit {
       );
     }
   }
+
+  //#endregion "Populate charts methods"
 
   /**
    * Removes the credits from the chart element.

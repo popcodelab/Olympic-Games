@@ -14,6 +14,7 @@ import {MatIconModule, MatIconRegistry} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
 import { ChartTitleBarComponent } from './pages/home/chart-title-bar/chart-title-bar.component';
 import { ChartTitleCardsDirective } from './directives/chart-title-cards-directive';
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ChartTitleCardsDirective } from './directives/chart-title-cards-directi
     MatToolbarModule,
     MatCardModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

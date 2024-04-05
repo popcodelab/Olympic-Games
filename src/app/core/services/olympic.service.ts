@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {Country} from "../models/country.model";
 import {ConfigService} from "./config.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root', // Scope : Application
@@ -30,10 +31,13 @@ export class OlympicService {
    *
    * @param {HttpClient} http - The HttpClient service.
    * @param {ConfigService} appConfigService - The ConfigService service.
+   * @param snackBar
    */
   constructor(
     private http: HttpClient,
-    private appConfigService: ConfigService) {
+    private appConfigService: ConfigService,
+    private snackBar: MatSnackBar
+    ) {
     this.olympicUrl = this.appConfigService.getApiUrl();
   }
 
@@ -50,6 +54,7 @@ export class OlympicService {
         console.error(error);
         // Set BehaviorSubject to null to indicate an error
         this.olympics$.next(null!);
+        this.openErrorSnackBar('An error has occurred fetching the data. Please try again later.')
         // Return throwError using errorFactory to propagate the error
         return throwError(() => new error('An error has occurred fetching the data. Please try again later.',error));
       })
@@ -63,5 +68,21 @@ export class OlympicService {
    */
   getOlympics():Observable<Country[]> {
     return this.olympics$.asObservable();
+  }
+
+  /**
+   * Opens an error snackbar with the given message.
+   *
+   * @param {string} message - The error message to be displayed.
+   * @private
+   * @returns {void}
+   */
+  private openErrorSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: this.appConfigService.getErrorSnackBarDuration(), // Adjust duration as needed
+      horizontalPosition: this.appConfigService.getErrorSnackBarHorizontalPosition(),
+      verticalPosition: this.appConfigService.getErrorSnackBarVerticalPosition(),
+      panelClass: ['error-snackbar']
+    });
   }
 }

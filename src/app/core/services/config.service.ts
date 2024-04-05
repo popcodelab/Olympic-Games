@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ApplicationConfig} from "../models/application-config.model";
+import {MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,9 @@ export class ConfigService {
     this.appConfig = {
       title: 'Olympic games results',
       apiUrl: './assets/mock/olympic.json',
+      errorSnackBarDuration: 5000,
+      errorSnackBarHorizontalPosition: 'center',
+      errorSnackBarVerticalPosition: 'bottom'
     };
   }
 
@@ -44,5 +48,32 @@ export class ConfigService {
    */
   getApiUrl(): string {
     return this.appConfig.apiUrl;
+  }
+
+  /**
+   * Retrieves the duration of the error snackbar.
+   *
+   * @returns {number} The duration of the error snackbar in milliseconds.
+   */
+  getErrorSnackBarDuration(): number {
+    return this.appConfig.errorSnackBarDuration;
+  }
+
+  /**
+   * Retrieves the horizontal position of the error snackbar.
+   *
+   * @returns {string} The horizontal position of the error snackbar.
+   */
+  getErrorSnackBarHorizontalPosition(): MatSnackBarHorizontalPosition {
+    return this.appConfig.errorSnackBarHorizontalPosition;
+  }
+
+  /**
+   * Get the vertical position of the error snackbar.
+   *
+   * @returns {string} The vertical position of the error snackbar.
+   */
+  getErrorSnackBarVerticalPosition(): MatSnackBarVerticalPosition {
+    return this.appConfig.errorSnackBarVerticalPosition;
   }
 }

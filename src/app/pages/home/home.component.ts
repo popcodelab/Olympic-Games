@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
-import {EMPTY, find, map, Observable} from 'rxjs';
+import {Component, ElementRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {EMPTY, find, map, Observable, Subscription} from 'rxjs';
 import {OlympicService} from '../../core/services/olympic.service';
 import {Participation} from "../../core/models/participation.model";
 import {CountrySumUp} from "../../core/models/country-sum-up.model";
@@ -13,10 +13,21 @@ import {Country} from "../../core/models/country.model";
 /**
  * @author Pignon Pierre-Olivier
  */
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  /** @Type {olympicsData$: Observable<Country[]> | undefined} : Olympic games data from the service */
+  /**
+   * @Type {olympicsData$: Observable<Country[]> | undefined} : Olympic games data from the service
+   *
+   * @Private
+   * */
   private olympicsData$: Observable<Country[]> | undefined;
+  /**
+   * Represents a collection of subscriptions.
+   * @Type {Subscription[]} Subscriptions
+   *
+   * @Private
+   */
+  private subscriptions: Subscription[] = [];
 
   /** @Type {boolean} : Back button on the detail chart */
   isBackButtonVisible = false;
@@ -34,18 +45,26 @@ export class HomeComponent implements OnInit {
 
   //#region "Variables for CanvasJS"
 
+  /** @Type {any} : CanvasJS chart. Unknown type from TypeScript, so must be any */
+  chart: any;
+
   /**
    * Depending on the chart type, the datapoint are different, so I decide to not create model object  and use "any" type
    * to avoid to overhead the application model with CanvasJS objects instantiated only once in all the code
    * I know that it was asked to not use any type, but I strongly think that's better in this case. It concerns only CanvasJS.
    * Plus in the case of the line chart, the label would have been a number which is no sense ! year has to be a number Cf. populateDetailsChart() Code
    */
-  /** @Type {any[]} : Stores the data points of the pie chart "Medals per country" which is the main chart */
+  /** @Type {any[]} : Stores the data points of the pie chart "Medals per country" which is the main chart
+   *
+   * @Private
+   * */
   private mainDataPoints: any[] = [];
-  /** @Type {any[]} : Stores the data points of the line chart number of medals per edition (country details) */
+  /** @Type {any[]} : Stores the data points of the line chart number of medals per edition (country details)
+   *
+   * @Private
+   * */
   private detailsDataPoints: any[] = [];
-  /** @Type {any} : CanvasJS chart. Unknown type from TypeScript, so must be any */
-  chart: any;
+
 
   //#endregion "Objects for CanvasJS"
 
@@ -168,6 +187,16 @@ export class HomeComponent implements OnInit {
   }
 
   /**
+   * Lifecycle method called when the component is about to be destroyed.
+   * Unsubscribes from all subscriptions.
+   *
+   * @returns {void}
+   */
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub: Subscription) => sub.unsubscribe());
+  }
+
+  /**
    * Get the participation of a country using its Id
    * @param {number} countryId  must be a number
    */
@@ -204,6 +233,36 @@ export class HomeComponent implements OnInit {
   //#region "Populate charts methods"
 
   /**
+   * Populates the chart with the data from the service
+   *
+   * @private
+   */
+  private populateMainChart() {
+    if (this.olympicsData$) {
+      const subscription:Subscription = this.olympicsData$.subscribe(
+        (countries: Country[]) => {
+          if (countries) {
+
+            for (let index: number = 0; index < countries.length; index++) {
+              const dataPoint: { x: number; name: string; y: number; label: string } = {
+                x: index,
+                y: (countries[index]).participations.reduce((medals: number, val: Participation) => medals + val.medalsCount, 0),
+                label: countries[index].country,
+                name: countries[index].country
+              };
+              this.mainDataPoints.push(dataPoint);
+            }
+          }
+          this.chart.title.remove();
+          this.chart.render();
+          this.removeCredits();
+        }
+      );
+      this.subscriptions.push(subscription);
+    }
+  }
+
+  /**
    * Populates the details chart with data for a specific country.
    *
    * @param {number} countryId - The ID of the country.
@@ -212,7 +271,7 @@ export class HomeComponent implements OnInit {
   private populateDetailsChart(countryId: number) {
     const countryParticipation$: Observable<Participation[] | undefined> = this.getParticipationDetailsByCountryId(countryId);
     if (countryParticipation$) {
-      countryParticipation$.subscribe(
+      const subscription: Subscription = countryParticipation$.subscribe(
         (participations: Participation[] | undefined) => {
           if (participations) {
             let medalsCount: number = 0;
@@ -239,35 +298,7 @@ export class HomeComponent implements OnInit {
           this.removeCredits();
         }
       );
-    }
-  }
-
-  /**
-   * Populates the chart with the data from the service
-   *
-   * @private
-   */
-  private populateMainChart() {
-    if (this.olympicsData$) {
-      this.olympicsData$.subscribe(
-        (countries: Country[]) => {
-          if (countries) {
-
-            for (let index: number = 0; index < countries.length; index++) {
-              const dataPoint: { x: number; name: string; y: number; label: string } = {
-                x: index,
-                y: (countries[index]).participations.reduce((medals: number, val: Participation) => medals + val.medalsCount, 0),
-                label: countries[index].country,
-                name: countries[index].country
-              };
-              this.mainDataPoints.push(dataPoint);
-            }
-          }
-          this.chart.title.remove();
-          this.chart.render();
-          this.removeCredits();
-        }
-      );
+      this.subscriptions.push(subscription);
     }
   }
 

@@ -1,14 +1,30 @@
 /**
-This entity is used to pass the summerized olympic data to the chart-titlebar component
- @Interface
-
- @Author Pignon Pierre-Olivier
+ * Represents a summary of a country's participation in a sporting event.
+ * @interface
+ *
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
  */
 export interface CountrySumUp {
-  /** @Type {number} : Participations count of a country */
+  /**
+   * Number of participations.
+   *
+   * @type {number}
+   */
   participations:number;
-  /** @Type {number} : Medals count of a country */
+  /**
+   * The number of medals won.
+   *
+   * @type {number}
+   */
   medals:number;
-  /** @Type {number} : Athletes count of a country */
+  /**
+   * The number of athletes.
+   *
+   * @type {number}
+   */
   athletes:number;
 }
+
+

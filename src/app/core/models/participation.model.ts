@@ -1,18 +1,40 @@
 /**
  * Defines a participation of a country at the olympic games
- * @Interface
+ * @interface
  *
- * @Author Pignon Pierre-Olivier
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
  */
 export interface Participation {
-  /** @Type {number} : Unique identifier of an edition */
+  /**
+   * Represents the unique identifier for a Participation.
+   *
+   * @type {number}
+   */
   id: number;
-  /** @Type {number} : Olympic game edition */
+  /**
+   * Represents an Olympic game edition
+   *
+   * @type {number}
+   */
   year: number;
-  /** @Type {string} : City name */
+  /**
+   * Represents the name of a city.
+   *
+   * @type {string} City
+   */
   city: string;
-  /** @Type {number} : Medals count */
+  /**
+   * The number of medals won.
+   *
+   * @type {number}
+   */
   medalsCount: number;
-  /** @Type {number} : Athletes count */
+  /**
+   * The number of athletes.
+   *
+   * @type {number}
+   */
   athleteCount: number;
 }

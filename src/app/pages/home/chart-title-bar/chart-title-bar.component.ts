@@ -1,16 +1,48 @@
 import {Component, Input} from '@angular/core';
 import {CountrySumUp} from "../../../core/models/country-sum-up.model";
 
+
+
+/**
+ * Component displaying the sum up of all the participation of a given country
+ *
+ * Represents the title bar of a chart.
+ *
+ * @class ChartTitleBarComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-chart-title-bar',
   templateUrl: './chart-title-bar.component.html',
 })
+
+/**
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
+ */
 export class ChartTitleBarComponent {
-  /** @Type {string} : Chart title */
+  /**
+   * Represents the title of the chart.
+   *
+   * @type {string|undefined}
+   */
   @Input() title: string | undefined;
-  /** @Type {boolean} : Shows or hides participation details of the selected country */
+  /**
+   * Determines whether the element is currently visible or not.
+   *
+   * @type {boolean | undefined}
+   */
   @Input() isVisible: boolean | undefined;
-  /** @Type {CountrySumUp} : Totals from parent component */
+  /**
+   * Represents a summary the totals for a country.
+   *
+   * @typedef {object} CountrySumUp
+   * @property {string} name - The name of the country.
+   * @property {number} population - The population of the country.
+   * @property {string} capital - The capital city of the country.
+   * @property {string[]} languages - The languages spoken in the country.
+   */
   @Input() data: CountrySumUp | undefined;
 
 }

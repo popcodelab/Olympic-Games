@@ -2,18 +2,28 @@ import {Injectable} from '@angular/core';
 import {ApplicationConfig} from "../models/application-config.model";
 import {MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
+/**
+ * Service providing functionality for the application.
+ * This service is provided in the root injector, making it accessible application-wide.
+ */
 @Injectable({
   providedIn: 'root'
 })
 
 /**
- * Application configuration service
+ * Configuration service for the application.
  *
- * @Author Pignon Pierre-Olivier
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
  */
 export class ConfigService {
 
-  /** @Type {ApplicationConfig} application configuration*/
+  /**
+   * Represents the configuration for an application.
+   *
+   * @typedef {Object} ApplicationConfig
+   */
   private readonly appConfig: ApplicationConfig;
 
   /**

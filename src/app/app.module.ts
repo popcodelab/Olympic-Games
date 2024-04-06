@@ -42,9 +42,16 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  /*
-  * Register the remarded_ads Google icon with Angular Material, this is crucial to locate the SVVG file
-  * */
+
+  /**
+   * Constructor for initializing an instance of a class.
+   *
+   * @param {MatIconRegistry} matIconRegistry - The MatIconRegistry service used to register custom icons.
+   * @param {DomSanitizer} domSanitizer - The DomSanitizer service used to sanitize and trust the icon resource URL.
+   *
+   * Note: Register the rewarded_ads Google icon with Angular Material, this is crucial to locate the SVG file
+   *
+   */
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer
@@ -54,4 +61,6 @@ export class AppModule {
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/svg/rewarded_ads.svg')
     );
   }
+
+
 }

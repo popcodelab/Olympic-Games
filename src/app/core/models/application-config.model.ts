@@ -1,24 +1,34 @@
 import {MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
 /**
- * Store the appllication configuration
- * @Interface
+ * Stores the application configuration
+ * @interface
  *
- * @Author Pierre-Olivier Pignon
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
  */
 export interface ApplicationConfig {
-  /** @Type {string} Application title */
+  /**
+   * Represents the application title
+   *
+   * @type {string}
+   */
   title: string;
-  /** @Type {string} url used by the OlympicService to collect the data */
+  /**
+   * Represents the base URL for API endpoints.
+   *
+   * @type {string}
+   */
   apiUrl: string;
   /**
-   * The duration, in milliseconds, for displaying error snack bar messages.
+   * Represents the duration, in milliseconds, for displaying error snack bar messages.
    *
    * @type {number}
    */
   errorSnackBarDuration: number;
   /**
-   * The horizontal position of the error snack bar.
+   * Determines the horizontal position of the error snack bar.
    *
    * The valid values for this variable are:
    * 'start' | 'center' | 'end' | 'left' | 'right'

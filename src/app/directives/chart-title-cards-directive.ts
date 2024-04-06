@@ -1,15 +1,22 @@
 import {Directive, ElementRef} from '@angular/core';
 
+/**
+ * The ChartTitleCardsDirective is a directive used to set the border color and align the elements of a chart title card.
+ *
+ * @example
+ *   <div appDetailsBorderCard></div>
+ *
+*/
 @Directive({
   selector: '[appDetailsBorderCard]'
 })
 
-/**
- * Defines the Chart title card directive
- * @Author Pignon Pierre-Olivier 
+ /**
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
  */
 export class ChartTitleCardsDirective {
-
 
   /**
    * Constructs a new instance of the class.

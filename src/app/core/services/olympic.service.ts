@@ -6,18 +6,30 @@ import {Country} from "../models/country.model";
 import {ConfigService} from "./config.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
+/**
+ * Service providing functionality for the application.
+ * This service is provided in the root injector, making it accessible application-wide.
+ */
 @Injectable({
-  providedIn: 'root', // Scope : Application
+  providedIn: 'root'
 })
 
 /**
  * Provides the Olympic Games data for the application using a JSON file
  *
- * @Author Pignon Pierre-Olivier
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
  */
 export class OlympicService {
-  /** @Type {string} JSON file url */
+
+  /**
+   * The URL of the Olympic Games Json file.
+   *
+   * @type {string}
+   */
   private olympicUrl: string = '';
+
   /**
    * We use the BehaviorSubject rather a simple Observable because we need to store the current value and to initialize the stream
    *

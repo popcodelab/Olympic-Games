@@ -4,14 +4,28 @@ import {Participation} from "./participation.model";
  * Represents a Country.
  * @interface
  *
- *  @Author Pignon Pierre-Olivier
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
  */
 export interface Country {
-  /** @Type {number} : Unique identifier of a country */
+  /**
+   * Represents the identifier for a specific entity.
+   *
+   * @type {number}
+   */
   id: number;
-  /** @Type {string} : Country name */
+  /**
+   * Represents the country name
+   *
+   * @type {string}
+   */
   country: string;
-  /** @Type {Participation[]} : ParticipationModel details */
+  /**
+   * Represents an array of Participation objects.
+   *
+   * @typedef {Participation[]} participations
+   */
   participations: Participation[];
 }
 

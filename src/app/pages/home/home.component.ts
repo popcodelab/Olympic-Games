@@ -5,38 +5,72 @@ import {Participation} from "../../core/models/participation.model";
 import {CountrySumUp} from "../../core/models/country-sum-up.model";
 import {Country} from "../../core/models/country.model";
 
+/**
+ * Component representing the home page of the application.
+ * This component is responsible for displaying the main content of the home page.
+ */
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 /**
+ * Angular component representing the home page.
+ * @class
+ * @implements {OnInit}
+ * @implements {OnDestroy}
+ *
  * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
  */
 export class HomeComponent implements OnInit, OnDestroy {
 
   /**
-   * @Type {olympicsData$: Observable<Country[]> | undefined} : Olympic games data from the service
+   * Represents the Olympics data.
    *
-   * @Private
-   * */
+   * @typedef {Observable<Country[]> | undefined} olympicsData$
+   * @property {Observable<Country[]>} - An Observable that emits an array of Country objects that represent the Olympics data.
+   */
   private olympicsData$: Observable<Country[]> | undefined;
+
   /**
-   * Represents a collection of subscriptions.
-   * @Type {Subscription[]} Subscriptions
+   * An array of Subscription objects representing a collection of subscriptions.
    *
-   * @Private
+   * @type {Subscription[]}
    */
   private subscriptions: Subscription[] = [];
 
-  /** @Type {boolean} : Back button on the detail chart */
+  /**
+   * Variable indicating whether the back button is visible.
+   *
+   * @type {boolean}
+   */
   isBackButtonVisible = false;
-  /** @Type {boolean} : Shows or hides the detail panel if the visitor is on the detail chart **/
+  /**
+   * Indicates whether the details are currently visible or not.
+   *
+   * @type {boolean}
+   * @default false
+   */
   isDetailsVisible: boolean = false;
 
-  /** @Type {string} */
+  /**
+   * Represents the title of a chart.
+   *
+   * @type {string}
+   * @description The title of the chart.
+   */
   chartTitle = "Medals per country";
-  /** @Type {CountrySumUp} - Stores the totals of a country */
+  /**
+   * Details of totals for country sum up.
+   *
+   * @typedef {Object} CountrySumUp
+   * @property {number} participations - The total number of participations.
+   * @property {number} medals - The total number of medals.
+   * @property {number} athletes - The total number of athletes.
+   */
   detailsTotals: CountrySumUp = {
     participations: 0,
     medals: 0,
@@ -45,7 +79,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   //#region "Variables for CanvasJS"
 
-  /** @Type {any} : CanvasJS chart. Unknown type from TypeScript, so must be any */
+  /**
+   * Represents a CanvasJS object - Type must be any
+   *
+   * @typedef {any} Chart
+   */
   chart: any;
 
   /**
@@ -54,15 +92,19 @@ export class HomeComponent implements OnInit, OnDestroy {
    * I know that it was asked to not use any type, but I strongly think that's better in this case. It concerns only CanvasJS.
    * Plus in the case of the line chart, the label would have been a number which is no sense ! year has to be a number Cf. populateDetailsChart() Code
    */
-  /** @Type {any[]} : Stores the data points of the pie chart "Medals per country" which is the main chart
+
+  /**
+   * Stores the data points of the pie chart "Medals per country" which is the main chart
    *
-   * @Private
-   * */
+   * @type {any[]} - Any because the structure of a datapoint depends on the type of chart used
+   */
   private mainDataPoints: any[] = [];
-  /** @Type {any[]} : Stores the data points of the line chart number of medals per edition (country details)
+
+  /**
+   * Stores the data points of the line chart number of medals per edition (country details)
    *
-   * @Private
-   * */
+   * @type {Array<any>}
+   */
   private detailsDataPoints: any[] = [];
 
 
@@ -71,7 +113,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   //#region "Event handlers"
 
   /**
-   * Details : Back button event handler
+   * Details: Back button event handler
    * Updates the chart title, chart options, data points, and displays the chart.
    * Also removes credits, hides the back button, and details.
    *
@@ -88,7 +130,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handler function for moving to details section.
+   * Handler function for moving to the details section.
    *
    * @param {any} e - The event object
    * @returns {void}
@@ -165,7 +207,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   //#endregion "Chart options"
 
   /**
-   * Class constuctor
+   * Class constructor
+   *
    * @param {Renderer2} renderer - provides a way to interact with the DOM
    * @param {ElementRef} elementRef - references the canvas element where the chart is rendered
    * @param {OlympicService} olympicService - Injects the OlympicService which provides the data for the charts
@@ -197,7 +240,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get the participation of a country using its Id
+   * Get the participation of a country using its ID
+   *
    * @param {number} countryId  must be a number
    */
   getParticipationDetailsByCountryId(countryId: number): Observable<Participation[] | undefined> {
@@ -224,6 +268,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   /**
    * Retrieves the CanvasJS chart instance
+   *
    * @param {object} chart
    */
   getChartInstance(chart: object) {

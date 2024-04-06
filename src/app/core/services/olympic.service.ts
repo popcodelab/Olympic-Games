@@ -24,7 +24,7 @@ export class OlympicService {
    * @Type {olympics$:BehaviorSubject<Country[]>} : data
    * @private
    */
-  private olympics$:BehaviorSubject<Country[]> = new BehaviorSubject<Country[]>([]);
+  private olympics$: BehaviorSubject<Country[]> = new BehaviorSubject<Country[]>([]);
 
   /**
    * Constructs a new instance of the class.
@@ -37,7 +37,7 @@ export class OlympicService {
     private http: HttpClient,
     private appConfigService: ConfigService,
     private snackBar: MatSnackBar
-    ) {
+  ) {
     this.olympicUrl = this.appConfigService.getApiUrl();
   }
 
@@ -47,16 +47,14 @@ export class OlympicService {
    * @returns An Observable that emits the response from the API call.
    *          If an error occurs, it emits an error message and propagates the error.
    */
-  loadInitialData(): Observable<any> {
-    return this.http.get<any>(this.olympicUrl).pipe(
-      tap((value) => this.olympics$.next(value)),
-      catchError((error:any ) => {
+  loadInitialData(): Observable<Country[]> {
+    return this.http.get<Country[]>(this.olympicUrl).pipe(
+      tap((value: Country[]) => this.olympics$.next(value)),
+      catchError((error: Error) => {
         console.error(error);
-        // Set BehaviorSubject to null to indicate an error
-        this.olympics$.next(null!);
-        this.openErrorSnackBar('An error has occurred fetching the data. Please try again later.')
-        // Return throwError using errorFactory to propagate the error
-        return throwError(() => new error('An error has occurred fetching the data. Please try again later.',error));
+        this.olympics$.next([]);
+        this.openErrorSnackBar(error.message);
+        return throwError(() => error);
       })
     );
   }
@@ -66,7 +64,7 @@ export class OlympicService {
    *
    * @returns {Observable<Country[]>} - An Observable that emits an array of Olympic objects.
    */
-  getOlympics():Observable<Country[]> {
+  getOlympics(): Observable<Country[]> {
     return this.olympics$.asObservable();
   }
 

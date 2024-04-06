@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
 import {EMPTY, find, map, Observable} from 'rxjs';
 import {OlympicService} from '../../core/services/olympic.service';
 import {Participation} from "../../core/models/participation.model";
-import {OlympicsSumUpModel} from "../../core/models/olympics-sum-up.model";
+import {CountrySumUp} from "../../core/models/country-sum-up.model";
 import {Country} from "../../core/models/country.model";
 
 @Component({
@@ -25,8 +25,8 @@ export class HomeComponent implements OnInit {
 
   /** @Type {string} */
   chartTitle = "Medals per country";
-  /** @Type {OlympicsSumUpModel} - Stores the totals of a country */
-  detailsTotals: OlympicsSumUpModel = {
+  /** @Type {CountrySumUp} - Stores the totals of a country */
+  detailsTotals: CountrySumUp = {
     participations: 0,
     medals: 0,
     athletes: 0

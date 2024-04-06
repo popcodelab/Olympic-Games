@@ -88,19 +88,6 @@ export class HomeComponent implements OnInit {
 
   /**
    * Options for the main pie chart.
-   * @type {Object}
-   * @property {boolean} animationEnabled - Specifies whether to enable animation for the chart.
-   * @property {Object} title - The title configuration options for the chart.
-   * @property {string} title.text - The title of the chart.
-   * @property {string} theme - The theme for the chart.
-   * @property {Object} axisX - The configuration options for the X-axis.
-   * @property {string} axisX.title - The title of the X-axis.
-   * @property {Object} axisY - The configuration options for the Y-axis.
-   * @property {string} axisY.title - The title of the Y-axis.
-   * @property {Array} data - The data configuration options for the chart.
-   * @property {string} data.type - The type of chart.
-   * @property {function} data.click - The click event handler for the chart.
-   * @property {Array} data.dataPoints - The data points for the chart.
    */
   mainPieChartOptions: {
     data: { dataPoints: any[]; type: string; click: (e: any) => void }[];
@@ -132,18 +119,6 @@ export class HomeComponent implements OnInit {
 
   /**
    * Object representing the options for a line chart.
-   *
-   * @typedef {Object} detailsLineChartOptions
-   * @property {Object} title - The chart title options.
-   * @property {string} title.text - The text of the chart title.
-   * @property {Object} axisX - The X-axis options.
-   * @property {string} axisX.title - The title of the X-axis.
-   * @property {Object} axisY - The Y-axis options.
-   * @property {string} axisY.title - The title of the Y-axis.
-   * @property {Array} data - The data series options.
-   * @property {string} data.type - The type of chart series (line).
-   * @property {string} data.toolTipContent - The content of the tooltip for each data point.
-   * @property {Array} data.dataPoints - The data points for the chart series.
    */
   detailsLineChartOptions: {
     data: { toolTipContent: string; dataPoints: any[]; type: string }[];

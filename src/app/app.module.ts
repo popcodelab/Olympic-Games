@@ -15,6 +15,8 @@ import {MatCardModule} from "@angular/material/card";
 import { ChartTitleBarComponent } from './pages/home/chart-title-bar/chart-title-bar.component';
 import { ChartTitleCardsDirective } from './directives/chart-title-cards-directive';
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
     HomeComponent,
     NotFoundComponent,
     ChartTitleBarComponent,
-    ChartTitleCardsDirective
+    ChartTitleCardsDirective,
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

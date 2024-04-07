@@ -1,13 +1,7 @@
 <div class="main-container">
-  <mat-toolbar color="primary">
-    <div class="mat-toolbar-title">
-      <mat-icon svgIcon="rewarded_ads" class="cup-mat-icon cup-mat-icon-left" ></mat-icon>
-      <div class="app-title">{{ applicationTitle | titlecase  }}</div>
-      <mat-icon svgIcon="rewarded_ads" class="cup-mat-icon cup-mat-icon-right"></mat-icon>
-    </div>
-  </mat-toolbar>
+  <app-header></app-header>
   <div class="component-container">
     <router-outlet></router-outlet>
   </div>
-
+  <app-footer></app-footer>
 </div>

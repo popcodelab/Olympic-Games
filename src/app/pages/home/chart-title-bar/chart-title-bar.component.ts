@@ -14,6 +14,7 @@ import {CountrySumUp} from "../../../core/models/country-sum-up.model";
 @Component({
   selector: 'app-chart-title-bar',
   templateUrl: './chart-title-bar.component.html',
+  styleUrls: ['./chart-title-bar.component.scss']
 })
 
 /**

@@ -20,27 +20,12 @@ import {ConfigService} from "./core/services/config.service";
 export class AppComponent implements OnInit {
 
   /**
-   * @typedef {string} applicationTitle
-   *
-   * @description
-   * The application title is a string that represents the title of the application.
-   * It can be used to display the title in the user interface or as a reference in the code.
-   *
-   * @example
-   * let myAppTitle = 'My App';
-   */
-  applicationTitle: string = '';
-
-  /**
    * Creates a new instance of the ClassName.
    *
-   * @param {ConfigService} appConfigService - The ConfigService used for accessing application configuration.
    * @param {OlympicService} olympicService - The OlympicService used for accessing Olympic related data.
    *
    */
-  constructor(
-    private appConfigService: ConfigService,
-    private olympicService: OlympicService) {
+  constructor(private olympicService: OlympicService) {
   }
 
   /**
@@ -49,7 +34,6 @@ export class AppComponent implements OnInit {
    * @returns {void}
    */
   ngOnInit(): void {
-    this.applicationTitle = this.appConfigService.getTitle();
     this.olympicService.loadInitialData().pipe(take(1)).subscribe();
   }
 }

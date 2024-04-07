@@ -5,40 +5,27 @@ body {
   "Helvetica Neue",
   sans-serif;
 }
-
-.cup-mat-icon-left {
-  padding-right: 0.5em;
-}
-
-.cup-mat-icon-right {
-  padding-left: 0.5em;
-}
-
-.cup-mat-icon {
-  //padding-bottom:0.1em;
-  width: 1em !important;
-  height: 1em !important;
-  display: inline-flex !important;
-}
-
+/* mat-card-header : center elements */
 .center-card-content {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-
-.container {
+/* main container (app wrapper) */
+.main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* router-outlet wrapper */
 .component-container {
   width: 90%; /* Force the router-outlet to take 90% of the width */
   padding: 1em
 }
 
+/* Row containing the 3 cards for totals */
 .cards-row {
   display: flex;
   flex-direction: row;
@@ -54,17 +41,52 @@ body {
   font-size: 1vw;
 }
 
-.app-title {
-  display: inline-block;
+
+
+/* Error - snackbar */
+.error-snackbar {
+  background-color: #f44336;
+  color: white;
 }
 
+/* Top toolbar - displays the application title */
 .mat-toolbar-title {
   font-size: 3vw;
   flex: 1; /* Text takes up all available space */
   text-align: center; /* Center the text horizontally */
 }
 
-.error-snackbar {
-  background-color: #f44336;
-  color: white;
+/* Application title */
+.app-title {
+  display: inline-block;
+  height: 1em;
+}
+
+/* Adjust the height of mat-toolbar */
+.mat-toolbar {
+  height: 6vw!important; /* Adjust the height as per your requirement */
+}
+
+/* icons with the toolbar */
+.cup-mat-icon-left {
+  padding-right: 0.5em;
+}
+
+.cup-mat-icon-right {
+  padding-left: 0.5em;
+}
+
+.cup-mat-icon {
+  //padding-bottom:0.1em;
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-flex !important;
+}
+
+.cup-mat-icon {
+  height: 1em;
+}
+
+svg {
+  padding-top: 0.1em;
 }

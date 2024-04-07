@@ -147,6 +147,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   //#region "Chart options"
 
+  //#region "Main chart options"
   /**
    * Options for the main pie chart.
    */
@@ -178,6 +179,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     ],
   };
 
+  //#endregion "Main chart options"
+
+  //#region "Details chart options"
   /**
    * Object representing the options for a line chart.
    */
@@ -203,6 +207,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       dataPoints: this.detailsDataPoints
     }],
   };
+
+  //#endregion "Details chart options"
 
   //#endregion "Chart options"
 
@@ -339,8 +345,9 @@ export class HomeComponent implements OnInit, OnDestroy {
             };
           }
           this.chart.render();
-          this.chart.title.remove();
           this.removeCredits();
+          this.chart.title.remove();
+
         }
       );
       this.subscriptions.push(subscription);

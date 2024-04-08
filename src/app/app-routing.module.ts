@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ChartsComponent } from './modules/charts/page/charts.component';
+import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: ChartsComponent,
   },
   {
     path: '**', // wildcard
-    component: NotFoundComponent,
+    component: PageNotFoundComponent,
   },
 ];
 

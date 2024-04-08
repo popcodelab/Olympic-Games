@@ -21,6 +21,14 @@ export interface ApplicationConfig {
    * @type {string}
    */
   apiUrl: string;
+
+  /**
+   * The amount of time in milliseconds that determines how long it takes to reset a pie slice.
+   *
+   * @type {number}
+   */
+  pieSliceResetTimerTime:number;
+
   /**
    * Represents the duration, in milliseconds, for displaying error snack bar messages.
    *
@@ -45,4 +53,5 @@ export interface ApplicationConfig {
    * @type {MatSnackBarVerticalPosition}
    */
   errorSnackBarVerticalPosition:MatSnackBarVerticalPosition;
+
 }

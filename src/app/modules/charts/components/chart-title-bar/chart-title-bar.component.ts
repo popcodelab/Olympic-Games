@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CountrySumUp} from "../../../core/models/country-sum-up.model";
+import {CountrySumUp} from "../../../../core/models/country-sum-up.model";
 
 
 

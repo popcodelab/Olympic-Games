@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 /**
- * The NotFoundComponent class represents the component used for displaying the "Not Found" page.
+ * The PageNotFoundComponent class represents the component used for displaying the "Not Found" page.
  *
  * @class
  * @constructor
@@ -9,10 +9,10 @@ import { Component, OnInit } from '@angular/core';
  */
 @Component({
   selector: 'app-not-found',
-  templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.scss']
+  templateUrl: './page-not-found.component.html',
+  styleUrls: ['./page-not-found.component.scss']
 })
-export class NotFoundComponent {
+export class PageNotFoundComponent {
 
   /**
    * This is the constructor method of the class.

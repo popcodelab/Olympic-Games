@@ -2,9 +2,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { AppComponent } from './layout/app.component';
+import { ChartsComponent } from './modules/charts/page/charts.component';
+import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {AsyncPipe} from "@angular/common";
@@ -12,17 +12,17 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule, MatIconRegistry} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
-import { ChartTitleBarComponent } from './pages/home/chart-title-bar/chart-title-bar.component';
-import { ChartTitleCardsDirective } from './directives/chart-title-cards-directive';
+import { ChartTitleBarComponent } from './modules/charts/components/chart-title-bar/chart-title-bar.component';
+import { ChartTitleCardsDirective } from './modules/charts/directives/chart-title-cards-directive';
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { HeaderComponent } from './layout/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    NotFoundComponent,
+    ChartsComponent,
+    PageNotFoundComponent,
     ChartTitleBarComponent,
     ChartTitleCardsDirective,
     FooterComponent,

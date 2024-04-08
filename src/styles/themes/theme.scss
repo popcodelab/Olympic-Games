@@ -1,6 +1,6 @@
-@use "@angular/material" as mat;
+@use "../../../node_modules/@angular/material/index" as mat;
 
-@import '../node_modules/@angular/material/theming';
+@import '../../../node_modules/@angular/material/theming';
 
 // The core mixin
 @include mat.core();
@@ -20,19 +20,5 @@ $my-app-theme: mat.define-light-theme(
     )
 );
 
-//$my-app-theme: mat.define-dark-theme(
-//    (
-//      color: (
-//        primary: $my-app-primary,
-//        accent: $my-app-accent,
-//        warn: $my-app-warn,
-//      ),
-//    )
-//);
-
 @include mat.all-component-themes($my-app-theme);
-//@include mat.toolbar-theme($my-app-theme);
-//@include mat.angular-material-theme($my-app-theme);
-//@include mat.core-theme($my-app-theme);
 
-//@include angular-material-theme($my-app-theme);

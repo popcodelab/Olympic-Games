@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {EMPTY, find, map, Observable, Subscription} from 'rxjs';
-import {OlympicService} from '../../core/services/olympic.service';
-import {Participation} from "../../core/models/participation.model";
-import {CountrySumUp} from "../../core/models/country-sum-up.model";
-import {Country} from "../../core/models/country.model";
+import {OlympicService} from '../../../core/services/olympic.service';
+import {Participation} from "../../../core/models/participation.model";
+import {CountrySumUp} from "../../../core/models/country-sum-up.model";
+import {Country} from "../../../core/models/country.model";
 
 /**
  * Component representing the home page of the application.

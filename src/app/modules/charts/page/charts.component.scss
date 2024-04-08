@@ -1,0 +1,7 @@
+/* center the elements in chart card footer */
+.chart-mat-card-header {
+  display: flex;
+  justify-content: center;
+  margin: 0; // override th mat-card-footer margin to place the back button
+}
+

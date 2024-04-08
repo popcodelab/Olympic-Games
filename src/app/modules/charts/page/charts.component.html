@@ -1,0 +1,19 @@
+<mat-card class="mat-card  mat-elevation-z8 " >
+  <mat-card-header>
+    <app-chart-title-bar [title]="chartTitle" [isVisible]="isDetailsVisible"
+                         [data]="detailsTotals" style="width: 90%"></app-chart-title-bar>
+  </mat-card-header>
+  <mat-card-content>
+    <canvasjs-chart [options]="mainPieChartOptions"
+                    (chartInstance)="getChartInstance($event)"></canvasjs-chart>
+
+  </mat-card-content>
+  <mat-card-footer class="chart-mat-card-header">
+    <button mat-flat-button color="primary" style="padding-bottom: 0.2em"
+            *ngIf="this.isBackButtonVisible"
+            (click)="handleClick()">
+      Back
+    </button>
+  </mat-card-footer>
+</mat-card>
+

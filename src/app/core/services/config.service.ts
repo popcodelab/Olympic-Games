@@ -36,6 +36,7 @@ export class ConfigService {
     this.appConfig = {
       title: 'Olympic games results',
       apiUrl: './assets/mock/olympic.json',
+      pieSliceResetTimerTime: 350,
       errorSnackBarDuration: 5000,
       errorSnackBarHorizontalPosition: 'center',
       errorSnackBarVerticalPosition: 'bottom'
@@ -58,6 +59,15 @@ export class ConfigService {
    */
   getApiUrl(): string {
     return this.appConfig.apiUrl;
+  }
+
+  /**
+   * Retrieves the pie slice reset timer time.
+   *
+   * @returns {number} The pie slice reset timer time.
+   */
+  getPieSliceResetTimerTime(): number{
+    return this.appConfig.pieSliceResetTimerTime;
   }
 
   /**

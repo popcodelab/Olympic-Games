@@ -4,6 +4,7 @@ import {OlympicService} from '../../../core/services/olympic.service';
 import {Participation} from "../../../core/models/participation.model";
 import {CountrySumUp} from "../../../core/models/country-sum-up.model";
 import {Country} from "../../../core/models/country.model";
+import {ConfigService} from "../../../core/services/config.service";
 
 /**
  * Component representing the home page of the application.
@@ -107,6 +108,12 @@ export class HomeComponent implements OnInit, OnDestroy {
    */
   private detailsDataPoints: any[] = [];
 
+  /**
+   * Represents the selected chart slice.
+   * @type {number}
+   */
+  private selectedChartSlice: number = -1;
+
 
   //#endregion "Objects for CanvasJS"
 
@@ -123,10 +130,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.chartTitle = "Medals per country";
     this.chart.options = this.mainPieChartOptions;
     this.chart.options.data.dataPoints = this.mainDataPoints;
-    this.chart.render();
-    this.removeCredits();
     this.isBackButtonVisible = false;
     this.isDetailsVisible = false;
+    if (this.selectedChartSlice != -1) {
+      console.log('reset pie slice');
+      setTimeout(() => this.resetChartSliceCallback(this.selectedChartSlice),
+        this.appConfigService.getPieSliceResetTimerTime());
+    }
+    this.chartRender();
   }
 
   /**
@@ -136,9 +147,10 @@ export class HomeComponent implements OnInit, OnDestroy {
    * @returns {void}
    */
   moveToDetailsHandler = (e: any) => {
+    this.selectedChartSlice = e.dataPoint.x;
     this.chartTitle = `${e.dataPoint.label} details`;
     this.chart.options = this.detailsLineChartOptions;
-    this.populateDetailsChart(e.dataPoint.x + 1);
+    this.populateDetailsChart(this.selectedChartSlice + 1);
     this.isBackButtonVisible = true;
     this.isDetailsVisible = true;
   }
@@ -156,13 +168,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     axisY: { title: string };
     axisX: { title: string };
     theme: string;
-    title: { text: string };
     animationEnabled: boolean
   } = {
     animationEnabled: true,
-    title: {
-      text: 'Medals per Country'
-    },
     theme: 'light1',
     axisX: {
       title: "Edition"
@@ -189,11 +197,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     data: { toolTipContent: string; dataPoints: any[]; type: string }[];
     axisY: { title: string };
     axisX: { title: string };
-    title: { text: string }
   } = {
-    title: {
-      text: 'Medal count per edition'
-    },
     axisX: {
       title: "Editions",
     },
@@ -222,7 +226,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    private olympicService: OlympicService) {
+    private olympicService: OlympicService,
+    private appConfigService: ConfigService) {
   }
 
   /**
@@ -253,9 +258,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   getParticipationDetailsByCountryId(countryId: number): Observable<Participation[] | undefined> {
     if (this.olympicsData$) {
       return this.olympicsData$.pipe(
-        find((countries: Country[]) => countries.some((country: Country):boolean => country.id === countryId)),
+        find((countries: Country[]) => countries.some((country: Country): boolean => country.id === countryId)),
         map((countries: Country[] | undefined) => {
-          const country: Country | undefined = countries?.find((obj:Country): boolean => obj.id === countryId);
+          const country: Country | undefined = countries?.find((obj: Country): boolean => obj.id === countryId);
           const participationDetails: Participation[] | undefined = [];
 
           if (country && country.participations) {
@@ -290,10 +295,9 @@ export class HomeComponent implements OnInit, OnDestroy {
    */
   private populateMainChart() {
     if (this.olympicsData$) {
-      const subscription:Subscription = this.olympicsData$.subscribe(
+      const subscription: Subscription = this.olympicsData$.subscribe(
         (countries: Country[]) => {
           if (countries) {
-
             for (let index: number = 0; index < countries.length; index++) {
               const dataPoint: { x: number; name: string; y: number; label: string } = {
                 x: index,
@@ -304,9 +308,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.mainDataPoints.push(dataPoint);
             }
           }
-          this.chart.title.remove();
-          this.chart.render();
-          this.removeCredits();
+          this.chartRender();
         }
       );
       this.subscriptions.push(subscription);
@@ -328,6 +330,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             let medalsCount: number = 0;
             let athletesCount: number = 0;
             let participationsCount: number = 0;
+            this.detailsDataPoints.length = 0;
             for (let index: number = 0; index < participations.length; index++) {
               const dataPoint: { label: number, y: number } = {
                 label: participations[index].year, // do not use x !! it will interpolate the missing years🥵
@@ -344,9 +347,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               participations: participationsCount
             };
           }
-          this.chart.render();
-          this.removeCredits();
-          this.chart.title.remove();
+          this.chartRender();
 
         }
       );
@@ -370,4 +371,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Renders the chart  and removes the credits.
+   * This method should only be called internally.
+   *
+   * @private
+   * @return {void}
+   */
+  private chartRender() {
+    this.chart.render();
+    this.removeCredits();
+  }
+
+  /**
+   * Replaces at its original position the pie slice of the selected country.
+   *
+   * @param {number} selectedSliceIndex - The index of the selected slice in the chart data array.
+   * @private
+   * @returns {void}
+   */
+  private resetChartSliceCallback(selectedSliceIndex: number) {
+    this.chart.data[0].dataPoints[selectedSliceIndex].exploded = false;
+    this.chartRender();
+  }
 }

@@ -6,13 +6,12 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import {EMPTY, filter, find, map, Observable, Subscription} from 'rxjs';
+import {EMPTY, find, map, Observable, Subscription} from 'rxjs';
 import {OlympicService} from '../../../core/services/olympic.service';
 import {Participation} from "../../../core/models/participation.model";
 import {CountrySumUp} from "../../../core/models/country-sum-up.model";
 import {Country} from "../../../core/models/country.model";
 import {ConfigService} from "../../../core/services/config.service";
-import {Router} from "@angular/router";
 
 /**
  * Component representing the chart's page of the application.

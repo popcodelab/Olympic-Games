@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {AsyncPipe, CommonModule} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
@@ -11,6 +11,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MaterialModule} from "./material.module";
 
 /**
  * The SharedModule is a shared module that can be imported into other modules.
@@ -33,19 +34,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   imports: [
     CommonModule,
     RouterModule,
-    FontAwesomeModule,
-    MatCardModule,
-
+    FontAwesomeModule
   ],
   exports: [
     CommonModule,
     RouterModule,
     FontAwesomeModule,
-    MatCardModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule
+    MaterialModule
   ]
 })
 /**

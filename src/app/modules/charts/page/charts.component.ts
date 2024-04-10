@@ -11,7 +11,9 @@ import {OlympicService} from '../../../core/services/olympic.service';
 import {Participation} from "../../../core/models/participation.model";
 import {CountrySumUp} from "../../../core/models/country-sum-up.model";
 import {Country} from "../../../core/models/country.model";
+import {PieChartDataPoint} from "../../../core/types/pie-chart-datapoint.type";
 import {ConfigService} from "../../../core/services/config.service";
+import {LineChartDataPoint} from "../../../core/types/line-chart-datapoint.type";
 
 /**
  * Component representing the chart's page of the application.
@@ -104,16 +106,16 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Stores the data points of the pie chart "Medals per country" which is the main chart
    *
-   * @type {any[]} - Any because the structure of a datapoint depends on the type of chart used
+   * @typedef {PieChartDataPoint[]} - Array of PieChartDataPoint (Custom type)
    */
-  private mainDataPoints: any[] = [];
+  private mainDataPoints: PieChartDataPoint[] = [];
 
   /**
    * Stores the data points of the line chart number of medals per edition (country details)
    *
-   * @type {Array<any>}
+   * @typedef {LineChartDataPoint[]} - Array LineChartDataPoint (Custom type)
    */
-  private detailsDataPoints: any[] = [];
+  private detailsDataPoints: LineChartDataPoint[] = [];
 
   /**
    * Represents the selected chart slice.
@@ -322,11 +324,10 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
         (countries: Country[]) => {
           if (countries) {
             for (let index: number = 0; index < countries.length; index++) {
-              const dataPoint: { x: number; name: string; y: number; label: string } = {
+              const dataPoint: PieChartDataPoint = {
                 x: index,
                 y: (countries[index]).participations.reduce((medals: number, val: Participation) => medals + val.medalsCount, 0),
                 label: countries[index].country,
-                name: countries[index].country
               };
               this.mainDataPoints.push(dataPoint);
             }
@@ -356,8 +357,8 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
             let participationsCount: number = 0;
             this.detailsDataPoints.length = 0;
             for (let index: number = 0; index < participations.length; index++) {
-              const dataPoint: { label: number, y: number } = {
-                label: participations[index].year, // do not use x !! it will interpolate the missing years🥵
+              const dataPoint: LineChartDataPoint = {
+                label: ""+participations[index].year, // do not use x !! it will interpolate the missing years🥵
                 y: participations[index].medalsCount,
               };
               participationsCount++;

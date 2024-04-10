@@ -1,41 +1,104 @@
-/* Top toolbar - displays the application title */
-.mat-toolbar-title {
-  font-size: 3vw;
-  flex: 1; /* Text takes up all available space */
-  text-align: center; /* Center the text horizontally */
+
+  .active {
+    background-color: gray;
+  }
+    a:hover {
+      background-color: darkgray;
+    }
+
+* {
+  box-sizing: border-box;
 }
 
-/* Application title */
-.app-title {
+body {
+  font-family: 'segoe ui', serif;
+}
+
+.nav {
+  height: 50px;
+  width: 100%;
+  background-color: #4d4d4d;
+  position: relative;
+}
+
+.nav > .nav-header {
+  display: inline;
+}
+
+.nav > .nav-header > .nav-title {
   display: inline-block;
-  height: 1em;
+  font-size: 22px;
+  color: #fff;
+  padding: 10px 10px 10px 10px;
 }
 
-/* Adjust the height of mat-toolbar */
-.mat-toolbar {
-  height: 6vw!important; /* Adjust the height as per your requirement */
+.nav > .nav-btn {
+  display: none;
 }
 
-/* icons with the toolbar */
-.cup-mat-icon-left {
-  padding-right: 0.5em;
+.nav > .nav-links {
+  display: inline;
+  float: right;
+  font-size: 18px;
 }
 
-.cup-mat-icon-right {
-  padding-left: 0.5em;
+.nav > .nav-links > a {
+  display: inline-block;
+  padding: 13px 10px 13px 10px;
+  text-decoration: none;
+  color: #efefef;
 }
 
-.cup-mat-icon {
-  //padding-bottom:0.1em;
-  width: 1em !important;
-  height: 1em !important;
-  display: inline-flex !important;
+.nav > .nav-links > a:hover {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
-.cup-mat-icon {
-  height: 1em;
+.nav > #nav-check {
+  display: none;
 }
 
-svg {
-  padding-top: 0.1em;
+@media (max-width:600px) {
+  .nav > .nav-btn {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+  }
+  .nav > .nav-btn > label {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 13px;
+  }
+  .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  .nav > .nav-btn > label > span {
+    display: block;
+    width: 25px;
+    height: 10px;
+    border-top: 2px solid #eee;
+  }
+  .nav > .nav-links {
+    position: absolute;
+    display: block;
+    width: 6em;
+    background-color: #333;
+    height: 0px;
+    transition: all 0.3s ease-in;
+    overflow-y: hidden;
+    top: 50px;
+    left: 0px;
+  }
+  .nav > .nav-links > a {
+    display: block;
+    width: 100%;
+  }
+  .nav > #nav-check:not(:checked) ~ .nav-links {
+    height: 0px;
+  }
+  .nav > #nav-check:checked ~ .nav-links {
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+  }
 }

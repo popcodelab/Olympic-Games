@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApplicationConfig} from "../models/application-config.model";
-import {MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {environment} from "../../../environments/environment";
 
 /**
  * Service providing functionality for the application.
@@ -29,14 +30,14 @@ export class ConfigService {
   /**
    * Constructs a new instance of the class.
    * Initializes the app configuration object with default values.
-   *
    * @constructor
    */
   constructor() {
     this.appConfig = {
-      title: 'Olympic games results',
+      applicationTitle: 'Olympic games results',
       apiUrl: './assets/mock/olympic.json',
-      pieSliceResetTimerTime: 350,
+      gitHubRepoUrl: 'https://github.com/popcodelab/Olympic-Games',
+      pieSliceResetTimerTime: 500,
       errorSnackBarDuration: 5000,
       errorSnackBarHorizontalPosition: 'center',
       errorSnackBarVerticalPosition: 'bottom'
@@ -48,8 +49,8 @@ export class ConfigService {
    *
    * @return {string} The title of the application.
    */
-  getTitle(): string {
-    return this.appConfig.title;
+  getApplicationTitle(): string {
+    return this.appConfig.applicationTitle;
   }
 
   /**
@@ -57,8 +58,16 @@ export class ConfigService {
    *
    * @returns {string} The API URL.
    */
-  getApiUrl(): string {
-    return this.appConfig.apiUrl;
+  getApiUrl = (): string => this.appConfig.apiUrl;
+
+
+  /**
+   * Retrieves the URL of the GitHub repository hosting the application.
+   *
+   * @returns {string} The URL of the GitHub repository.
+   */
+  getGitHubRepoUrl(): string {
+    return this.appConfig.gitHubRepoUrl;
   }
 
   /**
@@ -66,7 +75,7 @@ export class ConfigService {
    *
    * @returns {number} The pie slice reset timer time.
    */
-  getPieSliceResetTimerTime(): number{
+  getPieSliceResetTimerTime(): number {
     return this.appConfig.pieSliceResetTimerTime;
   }
 
@@ -96,4 +105,11 @@ export class ConfigService {
   getErrorSnackBarVerticalPosition(): MatSnackBarVerticalPosition {
     return this.appConfig.errorSnackBarVerticalPosition;
   }
+
+  /**
+   * Retrieves the version of the application.
+   *
+   * @return {string} The version of the application.
+   */
+  getApplicationVersion = (): string => environment.version;
 }

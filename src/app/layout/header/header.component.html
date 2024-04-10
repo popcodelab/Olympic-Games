@@ -1,7 +1,18 @@
-<mat-toolbar color="primary">
-  <div class="mat-toolbar-title">
-    <mat-icon svgIcon="rewarded_ads" class="cup-mat-icon cup-mat-icon-left" ></mat-icon>
-    <div class="app-title">{{ applicationTitle | titlecase  }}</div>
-    <mat-icon svgIcon="rewarded_ads" class="cup-mat-icon cup-mat-icon-right"></mat-icon>
+<div class="nav">
+  <input type="checkbox" id="nav-check">
+  <div class="nav-header">
+    <div class="nav-title">
+      {{ applicationTitle | titlecase  }}
+    </div>
   </div>
-</mat-toolbar>
+  <div class="nav-btn">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+  <div class="nav-links" style="z-index: 100">
+    <a *ngFor="let item of navItems" [routerLink]="item.link" routerLinkActive="active">{{ item.title }}</a>
+  </div>
+</div>

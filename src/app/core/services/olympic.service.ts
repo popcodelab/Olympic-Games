@@ -5,6 +5,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {Country} from "../models/country.model";
 import {ConfigService} from "./config.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackBarService} from "./snackbar.service";
 
 /**
  * Service providing functionality for the application.
@@ -43,12 +44,12 @@ export class OlympicService {
    *
    * @param {HttpClient} http - The HttpClient service.
    * @param {ConfigService} appConfigService - The ConfigService service.
-   * @param snackBar
+   * @param {SnackBarService} snackBarService - The service to use Material SnackBar
    */
   constructor(
     private http: HttpClient,
     private appConfigService: ConfigService,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {
     this.olympicUrl = this.appConfigService.getApiUrl();
   }
@@ -65,7 +66,7 @@ export class OlympicService {
       catchError((error: Error) => {
         console.error(error);
         this.olympics$.next([]);
-        this.openErrorSnackBar(error.message);
+        this.snackBarService.openSnackBar(error.message);
         return throwError(() => error);
       })
     );
@@ -76,23 +77,6 @@ export class OlympicService {
    *
    * @returns {Observable<Country[]>} - An Observable that emits an array of Olympic objects.
    */
-  getOlympics(): Observable<Country[]> {
-    return this.olympics$.asObservable();
-  }
+  getOlympics = (): Observable<Country[]> => this.olympics$.asObservable();
 
-  /**
-   * Opens an error snackbar with the given message.
-   *
-   * @param {string} message - The error message to be displayed.
-   * @private
-   * @returns {void}
-   */
-  private openErrorSnackBar(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: this.appConfigService.getErrorSnackBarDuration(), // Adjust duration as needed
-      horizontalPosition: this.appConfigService.getErrorSnackBarHorizontalPosition(),
-      verticalPosition: this.appConfigService.getErrorSnackBarVerticalPosition(),
-      panelClass: ['error-snackbar']
-    });
-  }
 }

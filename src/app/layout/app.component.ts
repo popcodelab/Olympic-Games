@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {take} from 'rxjs';
-import {OlympicService} from '../core/services/olympic.service';
-import {ConfigService} from "../core/services/config.service";
+import {OlympicService} from './core/services/olympic.service';
 
 /**
  * AppComponent class represents the root component of the application.

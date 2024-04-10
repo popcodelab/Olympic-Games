@@ -1,6 +1,9 @@
 // import my custom theme
 @import "styles/themes/theme";
 
+@import '~bootstrap/scss/bootstrap';
+
+
 html,
 body {
   margin: 0;
@@ -47,7 +50,7 @@ body {
 
 /* Error - snackbar */
 .error-snackbar {
-  background-color: #f44336;
+  background-color: #f44336!important;
   color: white;
 }
 

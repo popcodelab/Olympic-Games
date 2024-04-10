@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ConfigService} from "../../core/services/config.service";
+import {environment} from "../../../environments/environment";
 
 /**
  * Represents the HeaderComponent of the application.
@@ -15,6 +16,11 @@ import {ConfigService} from "../../core/services/config.service";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+/**
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
+ */
 export class HeaderComponent implements OnInit {
 
   /**
@@ -30,10 +36,24 @@ export class HeaderComponent implements OnInit {
   applicationTitle: string = '';
 
   /**
+   * Represents an array of navigation items.
+   *
+   * @typedef {Object} NavItem
+   * @property {string} link - The URL link for the navigation item.
+   * @property {string} title - The title or label of the navigation item.
+   */
+  navItems: ({ link: string; title: string })[] = [
+    { link: '/dashboard/charts', title: 'Charts' },
+    { link: '/about', title: 'About' }
+  ];
+
+  /**
    * Constructs a new instance of the class.
    * @param {ConfigService} appConfigService - The app configuration service.
    */
   constructor(private appConfigService: ConfigService) { }
+
+
 
   /**
    * Initializes the component and assigns the application title.
@@ -41,7 +61,7 @@ export class HeaderComponent implements OnInit {
    * @return {void}
    */
   ngOnInit(): void {
-    this.applicationTitle = this.appConfigService.getTitle();
+    this.applicationTitle = this.appConfigService.getApplicationTitle();
   }
 
 }

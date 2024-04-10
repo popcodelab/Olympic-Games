@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ChartsComponent} from "../../../modules/charts/page/charts.component";
 
 /**
  * The PageNotFoundComponent class represents the component used for displaying the "Not Found" page.
@@ -12,14 +13,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './page-not-found.component.html',
   styleUrls: ['./page-not-found.component.scss']
 })
-export class PageNotFoundComponent {
-
-  /**
-   * This is the constructor method of the class.
-   * It is called when a new object of the class is created.
-   *
-   * @constructor
-   */
-  constructor() { }
-
-}
+/**
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
+ */
+export class PageNotFoundComponent {}

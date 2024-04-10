@@ -13,6 +13,18 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
+/**
+ * @author Pignon Pierre-Olivier
+ *
+ * @version 1.0
+ */
 export class FooterComponent{
 
+  /**
+   * Represents the current year.
+   *
+   * @type {number}
+   * @description This variable stores the current year obtained using the "getUTCFullYear()" method from the JavaScript Date object.
+   */
+  currentYear: number = new Date().getUTCFullYear();
 }

@@ -22,7 +22,7 @@ export class ChartTitleCardsDirective {
    * Constructs a new instance of the class.
    *
    * @param {ElementRef} elementRef - The ElementRef associated with the instance.
-   * @return {void}
+   * @constructor
    */
   constructor(private elementRef: ElementRef) {
     this.setBorder('#0077b6');

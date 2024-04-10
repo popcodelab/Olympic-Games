@@ -1,10 +1,18 @@
-import {Component, ElementRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
-import {EMPTY, find, map, Observable, Subscription} from 'rxjs';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
+import {EMPTY, filter, find, map, Observable, Subscription} from 'rxjs';
 import {OlympicService} from '../../../core/services/olympic.service';
 import {Participation} from "../../../core/models/participation.model";
 import {CountrySumUp} from "../../../core/models/country-sum-up.model";
 import {Country} from "../../../core/models/country.model";
 import {ConfigService} from "../../../core/services/config.service";
+import {Router} from "@angular/router";
 
 /**
  * Component representing the chart's page of the application.
@@ -26,7 +34,7 @@ import {ConfigService} from "../../../core/services/config.service";
  *
  * @version 1.0
  */
-export class ChartsComponent implements OnInit, OnDestroy {
+export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Represents the Olympics data.
@@ -63,7 +71,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
    * @type {string}
    * @description The title of the chart.
    */
-  chartTitle = "Medals per country";
+  chartTitle: string = "Medals per country";
   /**
    * Details of totals for the country sum up.
    *
@@ -83,7 +91,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
   /**
    * Represents a CanvasJS object - Type must be any
    *
-   * @typedef {any} Chart
+   * @type {any} Chart
    */
   chart: any;
 
@@ -126,14 +134,13 @@ export class ChartsComponent implements OnInit, OnDestroy {
    *
    * @return {void}
    */
-  handleClick() {
+  handleClick() : void {
     this.chartTitle = "Medals per country";
     this.chart.options = this.mainPieChartOptions;
     this.chart.options.data.dataPoints = this.mainDataPoints;
     this.isBackButtonVisible = false;
     this.isDetailsVisible = false;
     if (this.selectedChartSlice != -1) {
-      console.log('reset pie slice');
       setTimeout(() => this.resetChartSliceCallback(this.selectedChartSlice),
         this.appConfigService.getPieSliceResetTimerTime());
     }
@@ -146,7 +153,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
    * @param {any} e - The event object
    * @returns {void}
    */
-  moveToDetailsHandler = (e: any) => {
+  moveToDetailsHandler = (e: any): void => {
     this.selectedChartSlice = e.dataPoint.x;
     this.chartTitle = `${e.dataPoint.label} details`;
     this.chart.options = this.detailsLineChartOptions;
@@ -170,7 +177,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
     theme: string;
     animationEnabled: boolean
   } = {
-    animationEnabled: true,
+    animationEnabled: false,
     theme: 'light1',
     axisX: {
       title: "Edition"
@@ -231,6 +238,8 @@ export class ChartsComponent implements OnInit, OnDestroy {
     private appConfigService: ConfigService) {
   }
 
+  //#region "Angular lifecycle"
+
   /**
    * Initializes the component. This method is automatically called after component initialization.
    * It retrieves the Olympics games data using the olympicService.getOlympics() method and populates the main chart.
@@ -238,6 +247,18 @@ export class ChartsComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.olympicsData$ = this.olympicService.getOlympics();
+  }
+
+  /**
+   * Executes after the component's view has been initialized.
+   *
+   * Called by Angular after the component's view and child views have been initialized.
+   * Used to perform additional initialization tasks that require the view to be rendered like the chart rendering
+   * Populates the chart and renders it.
+   *
+   * @return {void}
+   */
+  ngAfterViewInit(): void {
     this.populateMainChart();
   }
 
@@ -250,6 +271,8 @@ export class ChartsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub: Subscription) => sub.unsubscribe());
   }
+
+  //#endregion "Angular lifecycle"
 
   /**
    * Get the participation of a country using its ID
@@ -273,7 +296,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
         })
       );
     } else {
-      console.log("No olympic data found !")
+      console.warn("No olympic data found !")
       return EMPTY;
     }
   }
@@ -314,6 +337,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
       );
       this.subscriptions.push(subscription);
     }
+
   }
 
   /**
@@ -365,7 +389,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
    *
    * @returns {void}
    */
-  private removeCredits() {
+  private removeCredits(): void {
     const elementToRemove = this.elementRef.nativeElement.querySelector('.canvasjs-chart-credit');
     if (elementToRemove) {
       this.renderer.removeChild(elementToRemove.parentNode, elementToRemove);
@@ -379,9 +403,14 @@ export class ChartsComponent implements OnInit, OnDestroy {
    * @private
    * @return {void}
    */
-  private chartRender() {
-    this.chart.render();
-    this.removeCredits();
+  private chartRender(): void {
+    // in case the chart is not rendered yet
+    try {
+      this.chart.render();
+      this.removeCredits();
+    } catch (error) {
+      console.warn(`chart renderer has occurred the following error ${error}`);
+    }
   }
 
   /**

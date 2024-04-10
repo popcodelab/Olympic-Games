@@ -14,13 +14,20 @@ export interface ApplicationConfig {
    *
    * @type {string}
    */
-  title: string;
+  applicationTitle: string;
   /**
    * Represents the base URL for API endpoints.
    *
    * @type {string}
    */
   apiUrl: string;
+
+  /**
+   * The URL of the GitHub repository for this project.
+   *
+   * @type {string}
+   */
+  gitHubRepoUrl: string;
 
   /**
    * The amount of time in milliseconds that determines how long it takes to reset a pie slice.

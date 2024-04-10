@@ -9,7 +9,6 @@ import {CountrySumUp} from "../../../../core/models/country-sum-up.model";
  * Represents the title bar of a chart.
  *
  * @class ChartTitleBarComponent
- * @implements {OnInit}
  */
 @Component({
   selector: 'app-chart-title-bar',

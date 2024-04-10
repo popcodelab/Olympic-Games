@@ -42,13 +42,15 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - TypeScript
 - JS
 - CSS
+- Bootstrap 4.6.0
+- <div style="display:flex;align-items: center"><span style="padding-right: 25px">Font Awesome 6.5.2</span><img style='width:60px;' src="https://raw.github.com/popcodelab/svg-icons/main/font-awesome-flag.svg?sanitize=true" alt="Angular"></div>
 - Angular Material 14.1.0
-- <div style="display:flex;align-items: center"><span style="padding-right: 25px">Angular 14.1.3</span><img style='width:60px;' src="https://raw.github.com/popcodelab/svg-icons/main/angular.svg?sanitize=true" alt="Angular"></div>
-- <div style="display:flex;align-items: center;padding-top: 10px"><span style="padding-right: 4em">CanvasJS</span><img style='width:50px;padding-bottom: 10px' src="https://raw.github.com/popcodelab/svg-icons/main/CanvasJS.svg?sanitize=true" alt="CanvasJS"></div>
+- <div style="display:flex;align-items: center"><span style="padding-right: 4.5em">Angular 14.1.3</span><img style='width:60px;' src="https://raw.github.com/popcodelab/svg-icons/main/angular.svg?sanitize=true" alt="Angular"></div>
+- <div style="display:flex;align-items: center;padding-top: 10px"><span style="padding-right: 6.5em">CanvasJS</span><img style='width:50px;padding-bottom: 10px' src="https://raw.github.com/popcodelab/svg-icons/main/CanvasJS.svg?sanitize=true" alt="CanvasJS"></div>
 
   - Angular-Charts 1.2.0
   - Charts 3.7.45
-- <div style="display:flex;align-items: center;padding-top: 10px"><span style="padding-right: 4em;">Compodoc</span><img style='width:50px;' src="https://raw.github.com/popcodelab/svg-icons/main/compodoc.svg?sanitize=true" alt="Compodoc"></div>
+- <div style="display:flex;align-items: center;padding-top: 10px"><span style="padding-right: 6.5em;">Compodoc</span><img style='width:50px;' src="https://raw.github.com/popcodelab/svg-icons/main/compodoc.svg?sanitize=true" alt="Compodoc"></div>
 
 ## Compodoc
 

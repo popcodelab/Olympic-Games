@@ -69,7 +69,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
   <td style="border: none"><img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/angular.svg?sanitize=true" alt="Angular 14.1.3"></td>
 </tr>
 <tr style="border: none"> 
-  <td style="border: none">CanvasJS Chart  3.7.45</td>
+  <td style="border: none">CanvasJS Chart 3.7.45</td>
   <td style="border: none"><img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/CanvasJS.svg?sanitize=true" alt="CanvasJS Chart  3.7.45"></td>
 </tr>
 <tr style="border: none">  
@@ -78,7 +78,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 </tr>
 <tr style="border: none"> 
   <td style="border: none">Angular Material 14.1.0</td>
-  <td style="border: none"><img style="height: 45px;width: 45px;" src="https://raw.github.com/popcodelab/svg-icons/main/material.svg?sanitize=true" alt="Angular Material 14.1.0"></td>
+  <td style="border: none"><img style="height: 45px;width: 45px;padding-left: 5px" src="https://raw.github.com/popcodelab/svg-icons/main/material.svg?sanitize=true" alt="Angular Material 14.1.0"></td>
 </tr>
 </table>
 
@@ -112,20 +112,3 @@ POP's Code Lab
 [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
 ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-
-<style>
-.container {
-  display: flex;
-}
-
-.item {
-  flex: 1; /* Each item occupies equal space */
-  border: 1px solid black;
-  padding: 5px;
-  margin: 5px;
-}
-
-.icon {
-  height: 40px;width: 40px;
-}
-</style>

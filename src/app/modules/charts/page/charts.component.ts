@@ -1,15 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2,} from '@angular/core';
 import {EMPTY, find, map, Observable, Subscription} from 'rxjs';
-import {OlympicService} from '../../../core/services/olympic.service';
+import {DataService} from '../../../core/services/data.service';
 import {Participation} from "../../../core/models/participation.model";
-import {CountrySumUp} from "../../../core/models/country-sum-up.model";
+import {SumUp} from "../../../core/models/sum-up.model";
 import {Country} from "../../../core/models/country.model";
 import {PieChartDataPoint} from "../../../core/types/pie-chart-datapoint.type";
 import {ConfigService} from "../../../core/services/config.service";
@@ -58,13 +51,29 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
    * @type {boolean}
    */
   isBackButtonVisible: boolean = false;
+
   /**
-   * Indicates whether the details are currently visible or not.
+   * Represents a sum up of athletes, jo count, and medals.
+   * Its content depends on the displayed chart.
+   *
+   * @typedef {Object} SumUp
+   * @property {number} athletes - The number of athletes.
+   * @property {number} joCount - The jo count.
+   * @property {number} medals - The number of medals.
+   */
+  sumUpToShowUp: SumUp =  {
+    athletes:0,
+    joCount: 0,
+    medals: 0,
+  };
+
+  /**
+   * Indicates whether to show the athlete count card or not.
    *
    * @type {boolean}
    * @default false
    */
-  isDetailsVisible: boolean = false;
+  showAthleteCount: boolean = false;
 
   /**
    * Represents the title of a chart.
@@ -73,16 +82,31 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
    * @description The title of the chart.
    */
   chartTitle: string = "Medals per country";
+
   /**
-   * Details of totals for the country sum up.
+   * Represents the pie chart totals of a sum up.
    *
-   * @typedef {Object} CountrySumUp
-   * @property {number} participations - The total number of participations.
-   * @property {number} medals - The total number of medals.
-   * @property {number} athletes - The total number of athletes.
+   * @typedef {Object} SumUp
+   * @property {number} joCount - The number of Joy of Officiating (Jo) events.
+   * @property {number} medals - The number of medals awarded.
+   * @property {number} athletes - The number of athletes involved - not displayed on the pie chart.
    */
-  detailsTotals: CountrySumUp = {
-    participations: 0,
+  mainTotals: SumUp = {
+    joCount: 0,
+    medals : 0,
+    athletes: 0
+  };
+
+  /**
+   * Totals for a given country.
+   *
+   * @typedef {Object} SumUp
+   * @property {number} joCount - The number of Joy of Officiating (Jo) events.
+   * @property {number} medals - The number of medals awarded.
+   * @property {number} athletes - The number of athletes involved.
+   */
+  detailsTotals: SumUp = {
+    joCount: 0,
     medals: 0,
     athletes: 0
   };
@@ -140,7 +164,8 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chart.options = this.mainPieChartOptions;
     this.chart.options.data.dataPoints = this.mainDataPoints;
     this.isBackButtonVisible = false;
-    this.isDetailsVisible = false;
+    this.showAthleteCount = false;
+    this.sumUpToShowUp = this.mainTotals;
     if (this.selectedChartSlice != -1) {
       setTimeout(() => this.resetChartSliceCallback(this.selectedChartSlice),
         this.appConfigService.getPieSliceResetTimerTime());
@@ -160,7 +185,8 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chart.options = this.detailsLineChartOptions;
     this.populateDetailsChart(this.selectedChartSlice + 1);
     this.isBackButtonVisible = true;
-    this.isDetailsVisible = true;
+    this.showAthleteCount = true;
+    this.sumUpToShowUp = this.detailsTotals;
   }
 
   //#endregion "Event handlers"
@@ -176,8 +202,22 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
     axisY: { title: string };
     axisX: { title: string };
     theme: string;
-    animationEnabled: boolean
+    animationEnabled: boolean;
+    toolTip: {
+      animationEnabled: boolean;
+      content: string,
+      backgroundColor: string,
+      cornerRadius: number;
+      fontColor:string;
+    }
   } = {
+    toolTip:{
+      content:"<div><p>{label}</p><span class=\"material-symbols-outlined\">license</span>{y}</div>",
+      animationEnabled: true,
+      backgroundColor:"#04838f",
+      cornerRadius:5,
+      fontColor:"white"
+    },
     animationEnabled: false,
     theme: 'light1',
     axisX: {
@@ -211,7 +251,6 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     axisY: {
       title: "Medal count",
-
     },
     data: [{
       type: "line",
@@ -220,23 +259,24 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }],
   };
 
+
   //#endregion "Details chart options"
 
   //#endregion "Chart options"
 
   /**
-   * Class constructor
+   * Creates a new instance of the constructor.
    *
-   * @param {Renderer2} renderer - provides a way to interact with the DOM
-   * @param {ElementRef} elementRef - references the canvas element where the chart is rendered
-   * @param {OlympicService} olympicService - Injects the OlympicService which provides the data for the charts
-   * @param appConfigService
+   * @param {Renderer2} renderer - The renderer for manipulating elements.
+   * @param {DataService} olympicService - The service for handling Olympic data.
+   * @param {ConfigService} appConfigService - The service for retrieving application configuration.
+   * @param {ChangeDetectorRef} cdr - The change detector reference for manual detection of changes.
    */
   constructor(
     private renderer: Renderer2,
-    private elementRef: ElementRef,
-    private olympicService: OlympicService,
-    private appConfigService: ConfigService) {
+    private olympicService: DataService,
+    private appConfigService: ConfigService,
+    private cdr: ChangeDetectorRef) {
   }
 
   //#region "Angular lifecycle"
@@ -261,6 +301,11 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngAfterViewInit(): void {
     this.populateMainChart();
+    // For some reason, the change detector does not implicitly check the changes when navigating from another page.
+    // So it doesn't refresh the Totals on the main chart title bar
+    // detectChanges checks this view and its children.
+    // It explicitly marks views as dirty, meaning that they have changed and need to be re-rendered.
+    this.cdr.detectChanges();
   }
 
   /**
@@ -320,6 +365,8 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private populateMainChart() {
     if (this.olympicsData$) {
+      let countryCount: number = 0;
+      let joCount: number[] = [];
       const subscription: Subscription = this.olympicsData$.subscribe(
         (countries: Country[]) => {
           if (countries) {
@@ -329,15 +376,35 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
                 y: (countries[index]).participations.reduce((medals: number, val: Participation) => medals + val.medalsCount, 0),
                 label: countries[index].country,
               };
+              countryCount = index+1;
               this.mainDataPoints.push(dataPoint);
+              // Calculate totals
+              const countryParticipation$: Observable<Participation[] | undefined> = this.getParticipationDetailsByCountryId(index+1);
+              if (countryParticipation$) {
+                const subscriptionParticipations: Subscription = countryParticipation$.subscribe(
+                  (participations: Participation[] | undefined) => {
+                    if (participations) {
+                      for (let index: number = 0; index < participations.length; index++) {
+                        joCount.push(participations[index].year);
+                      }
+                    }
+                  }
+                );
+                this.subscriptions.push(subscriptionParticipations)
+              }
             }
+            this.mainTotals = {
+              medals: countryCount,
+              joCount: [...new Set(joCount)].length,
+              athletes:0
+            };
+            this.sumUpToShowUp = this.mainTotals;
           }
           this.chartRender();
         }
       );
       this.subscriptions.push(subscription);
     }
-
   }
 
   /**
@@ -348,6 +415,7 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private populateDetailsChart(countryId: number) {
     const countryParticipation$: Observable<Participation[] | undefined> = this.getParticipationDetailsByCountryId(countryId);
+
     if (countryParticipation$) {
       const subscription: Subscription = countryParticipation$.subscribe(
         (participations: Participation[] | undefined) => {
@@ -369,16 +437,18 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.detailsTotals = {
               medals: medalsCount,
               athletes: athletesCount,
-              participations: participationsCount
+              joCount: participationsCount
             };
+            this.sumUpToShowUp = this.detailsTotals;
           }
           this.chartRender();
-
         }
       );
       this.subscriptions.push(subscription);
     }
   }
+
+
 
   //#endregion "Populate charts methods"
 
@@ -390,7 +460,7 @@ export class ChartsComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns {void}
    */
   private removeCredits(): void {
-    const elementToRemove = this.elementRef.nativeElement.querySelector('.canvasjs-chart-credit');
+    const elementToRemove = this.renderer.selectRootElement('.canvasjs-chart-credit');
     if (elementToRemove) {
       this.renderer.removeChild(elementToRemove.parentNode, elementToRemove);
     }

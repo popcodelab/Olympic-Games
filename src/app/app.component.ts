@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {take} from 'rxjs';
-import {OlympicService} from './core/services/olympic.service';
+import {DataService} from './core/services/data.service';
 
 /**
  * AppComponent class represents the root component of the application.
@@ -21,10 +21,10 @@ export class AppComponent implements OnInit {
   /**
    * Creates a new instance of the ClassName.
    *
-   * @param {OlympicService} olympicService - The OlympicService used for accessing Olympic related data.
+   * @param {DataService} olympicService - The OlympicService used for accessing Olympic related data.
    *
    */
-  constructor(private olympicService: OlympicService) {
+  constructor(private olympicService: DataService) {
   }
 
   /**

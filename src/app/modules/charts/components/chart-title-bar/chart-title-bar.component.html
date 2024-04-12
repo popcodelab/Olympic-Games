@@ -1,21 +1,19 @@
-<div style="padding: 1em;" >
-  <mat-card>
-    <mat-card-header class="center-card-content">
-      <mat-card-title class="chart-title" [ngStyle]="{'padding-bottom': isVisible?'0.5em':'0em'}">{{ title }}</mat-card-title>
-    </mat-card-header>
-    <div class="cards-row" [ngStyle]="{ 'display': isVisible ? 'flex' : 'none' }">
-      <mat-card appDetailsBorderCard>
-        <mat-card-title class="details-card-title">Number of entries</mat-card-title>
-        <mat-card-subtitle>{{data?.participations}}</mat-card-subtitle>
-      </mat-card >
-      <mat-card appDetailsBorderCard>
-        <mat-card-title class="details-card-title">Total number medals</mat-card-title>
-        <mat-card-subtitle>{{data?.medals}}</mat-card-subtitle>
-      </mat-card>
-      <mat-card appDetailsBorderCard>
-        <mat-card-title class="details-card-title">Total number of athletes</mat-card-title>
-        <mat-card-subtitle>{{data?.athletes}}</mat-card-subtitle>
-      </mat-card>
+<div style="padding: 1em;" class="chart-title-container">
+  <div class="chart-title">
+    {{ title }}
+  </div>
+    <div class="cards-row" >
+      <div class="card-content" appDetailsBorderCard>
+        <div class="details-card-title"> {{isAthelesCountVisible?"Number of entries":"Number of JOs"}}</div>
+        <div class="card-subtitle">{{data?.joCount}}</div>
+      </div>
+      <div class="card-content" appDetailsBorderCard>
+        <div class="details-card-title"> {{isAthelesCountVisible?"Total number medals":"Number of countries"}}</div>
+        <div class="card-subtitle">{{data?.medals}}</div>
+      </div>
+      <div class="card-content" appDetailsBorderCard [ngStyle]="{ 'display': isAthelesCountVisible ? 'flex' : 'none' }">
+        <div class="details-card-title"> Total number of athletes</div>
+        <div class="card-subtitle">{{data?.athletes}}</div>
+      </div>
     </div>
-  </mat-card>
 </div>

@@ -4,7 +4,6 @@ import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {Country} from "../models/country.model";
 import {ConfigService} from "./config.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackBarService} from "./snackbar.service";
 
 /**
@@ -22,7 +21,7 @@ import {SnackBarService} from "./snackbar.service";
  *
  * @version 1.0
  */
-export class OlympicService {
+export class DataService {
 
   /**
    * The URL of the Olympic Games Json file.

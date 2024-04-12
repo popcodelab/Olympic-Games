@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConfigService} from "../../core/services/config.service";
-import {environment} from "../../../environments/environment";
 
 /**
  * Represents the HeaderComponent of the application.

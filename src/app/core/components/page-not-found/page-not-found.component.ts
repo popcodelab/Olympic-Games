@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {ChartsComponent} from "../../../modules/charts/page/charts.component";
+import {Component} from '@angular/core';
 
 /**
  * The PageNotFoundComponent class represents the component used for displaying the "Not Found" page.

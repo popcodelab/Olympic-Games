@@ -6,13 +6,13 @@
  *
  * @version 1.0
  */
-export interface CountrySumUp {
+export interface SumUp {
   /**
    * Number of participations.
    *
    * @type {number}
    */
-  participations:number;
+  joCount:number;
   /**
    * The number of medals won.
    *

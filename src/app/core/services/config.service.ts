@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ApplicationConfig} from "../models/application-config.model";
-import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {environment} from "../../../environments/environment";
 
 /**

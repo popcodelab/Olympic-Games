@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 /**
  * Component for layouting the main content of the application.
@@ -30,6 +30,4 @@ import { Component } from '@angular/core';
  *
  * @version 1.0
  */
-export class ContentLayoutComponent {
-
-}
+export class ContentLayoutComponent {}

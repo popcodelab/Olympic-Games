@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CountrySumUp} from "../../../../core/models/country-sum-up.model";
-
+import {SumUp} from "../../../../core/models/sum-up.model";
 
 
 /**
@@ -22,6 +21,7 @@ import {CountrySumUp} from "../../../../core/models/country-sum-up.model";
  * @version 1.0
  */
 export class ChartTitleBarComponent {
+
   /**
    * Represents the title of the chart.
    *
@@ -33,7 +33,9 @@ export class ChartTitleBarComponent {
    *
    * @type {boolean | undefined}
    */
-  @Input() isVisible: boolean | undefined;
+  @Input() isAthelesCountVisible: boolean | undefined;
+
+
   /**
    * Represents a summary the totals for a country.
    *
@@ -43,6 +45,6 @@ export class ChartTitleBarComponent {
    * @property {string} capital - The capital city of the country.
    * @property {string[]} languages - The languages spoken in the country.
    */
-  @Input() data: CountrySumUp | undefined;
+  @Input() data: SumUp | undefined;
 
 }

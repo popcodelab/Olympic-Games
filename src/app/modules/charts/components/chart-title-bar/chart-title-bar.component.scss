@@ -1,0 +1,41 @@
+.chart-title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Chart title */
+.chart-title {
+  display: flex;
+  flex-direction: column;
+  height: 2em;
+  align-items: center;
+  justify-content: center;
+   padding: 1em;
+  color:white;
+  font-size: 2vw;
+  background-color: #04838f;
+  border-radius: 15px;
+}
+
+/* Row containing the 3 cards for totals */
+.cards-row {
+  display: flex;
+  flex-direction: row;
+  //align-items: center;
+  justify-content: center; /* Distribute items horizontally */
+}
+
+
+
+.card-subtitle {
+  font-size: 1vw;
+  font-weight: bold;
+  color:black;
+}
+
+.details-card-title {
+  padding-top: 0.5em;
+  font-size: 1vw;
+}

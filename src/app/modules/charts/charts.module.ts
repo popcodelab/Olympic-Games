@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { ChartsComponent}  from "./page/charts.component";
+import {NgModule} from '@angular/core';
+import {ChartsComponent} from "./page/charts.component";
 import {ChartTitleBarComponent} from "./components/chart-title-bar/chart-title-bar.component";
-import {ChartTitleCardsDirective} from "./directives/chart-title-cards-directive";
+import {ChartTitleCardDirective} from "./directives/chart-title-card.directive";
 import {SharedModule} from "../../shared/shared.module";
 import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
 import {ChartsRoutingModule} from "./charts-routing.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 /**
  * Represents the ChartsModule class.
@@ -15,13 +16,14 @@ import {ChartsRoutingModule} from "./charts-routing.module";
   declarations: [
     ChartsComponent,
     ChartTitleBarComponent,
-    ChartTitleCardsDirective
+    ChartTitleCardDirective
   ],
-  imports: [
-    SharedModule,
-    CanvasJSAngularChartsModule,
-    ChartsRoutingModule
-  ]
+    imports: [
+        SharedModule,
+        CanvasJSAngularChartsModule,
+        ChartsRoutingModule,
+        MatTooltipModule
+    ]
 })
 /**
  * @author Pignon Pierre-Olivier

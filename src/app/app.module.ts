@@ -1,4 +1,3 @@
-import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
@@ -40,7 +39,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
   imports: [
     // angular
     BrowserModule,
-    //Provides animations support for Angular Material components as Snackbar.
+    //Provides animation support for Angular Material components as Snackbar.
     BrowserAnimationsModule, // Must be placed in the same Module as BrowserModule, otherwise navigation KO
 
     // core & shared

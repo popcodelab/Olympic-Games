@@ -4,8 +4,10 @@
   justify-content: center;
   margin: 0; // override th mat-card-footer margin to place the back button
 }
-
+/* produces a space between the navbar and the chart */
 .mat-card-charts {
   margin-top: 1rem;
 }
+
+
 

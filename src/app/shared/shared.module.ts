@@ -5,12 +5,6 @@ import {RouterModule} from '@angular/router';
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {faTrophy} from '@fortawesome/free-solid-svg-icons';
 import {faGithub} from "@fortawesome/free-brands-svg-icons";
-
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatButtonModule} from "@angular/material/button";
-import {MatCardModule} from "@angular/material/card";
-import {MatIconModule} from "@angular/material/icon";
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MaterialModule} from "./material.module";
 
 /**

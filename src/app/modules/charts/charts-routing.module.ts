@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {ChartsComponent} from "./page/charts.component";
 import {RouterModule, Routes} from "@angular/router";
 

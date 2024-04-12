@@ -3,7 +3,6 @@
 
 @import '~bootstrap/scss/bootstrap';
 
-
 html,
 body {
   margin: 0;
@@ -16,42 +15,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* main container (app wrapper) */
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* router-outlet wrapper */
-.component-container {
-  width: 90%; /* Force the router-outlet to take 90% of the width */
-  padding: 1em
-}
-
-/* Row containing the 3 cards for totals */
-.cards-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around; /* Distribute items horizontally */
-}
-
-.chart-title{
-  font-size: 2vw!important;
-}
-
-.details-card-title {
-  font-size: 1vw;
-}
-
-
-/* Error - snackbar */
-.error-snackbar {
-  background-color: #f44336!important;
-  color: white;
 }
 
 app-footer, app-header {

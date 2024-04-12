@@ -8,6 +8,7 @@
 - Technologies
 - Compodoc
 - Authors
+- Screenshots
 
 ## Description and goals
 
@@ -40,17 +41,28 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 - HTML5
 - TypeScript
-- JS
-- CSS
+- JavaScript
+- CSS3
 - Bootstrap 4.6.0
-- <div style="display:flex;align-items: center"><span style="padding-right: 25px">Font Awesome 6.5.2</span><img style='width:60px;' src="https://raw.github.com/popcodelab/svg-icons/main/font-awesome-flag.svg?sanitize=true" alt="Angular"></div>
+- Font Awesome 6.5.2
 - Angular Material 14.1.0
-- <div style="display:flex;align-items: center"><span style="padding-right: 4.5em">Angular 14.1.3</span><img style='width:60px;' src="https://raw.github.com/popcodelab/svg-icons/main/angular.svg?sanitize=true" alt="Angular"></div>
-- <div style="display:flex;align-items: center;padding-top: 10px"><span style="padding-right: 6.5em">CanvasJS</span><img style='width:50px;padding-bottom: 10px' src="https://raw.github.com/popcodelab/svg-icons/main/CanvasJS.svg?sanitize=true" alt="CanvasJS"></div>
-
+- Angular 14.1.3
+- CanvasJS
   - Angular-Charts 1.2.0
   - Charts 3.7.45
-- <div style="display:flex;align-items: center;padding-top: 10px"><span style="padding-right: 6.5em;">Compodoc</span><img style='width:50px;' src="https://raw.github.com/popcodelab/svg-icons/main/compodoc.svg?sanitize=true" alt="Compodoc"></div>
+- Compodoc 1.1.23
+- Git
+
+<div class="container">
+  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/html-5.svg?sanitize=true" alt="HTML5"></div>
+  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/typescript.svg?sanitize=true" alt="TypeScript"></div>
+  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/javascript.svg?sanitize=true" alt="JavaScript"></div>
+  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/css-3.svg?sanitize=true" alt="CSS3"></div>
+  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/font-awesome-flag.svg?sanitize=true" alt="Font Awesome"></div>
+  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/angular.svg?sanitize=true" alt="angular"></div>
+  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/CanvasJS.svg?sanitize=true" alt="CanvasJS"></div>
+  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/compodoc.svg?sanitize=true" alt="CompoDoc"></div>
+</div>
 
 ## Compodoc
 
@@ -66,6 +78,15 @@ Once installed :
 
 POP's Code Lab
 
+## Screenshots
+
+![Screenshot 1](./src/assets/screenshots/screenshot.png)
+![Screenshot 2](./src/assets/screenshots/screenshot-line.png)
+![Screenshot 3](./src/assets/screenshots/screenshot-mobile.png)
+![Screenshot 3](./src/assets/screenshots/screenshot-mobile-line.png)
+
+<hr/>
+
 [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/uses-git.svg)](https://forthebadge.com)
@@ -73,3 +94,21 @@ POP's Code Lab
 [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
 ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
+<style>
+.container {
+  display: flex;
+}
+
+.item {
+  flex: 1; /* Each item occupies equal space */
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px;
+}
+
+.icon {
+  height: 60px;
+  width: 60px;
+}
+</style>

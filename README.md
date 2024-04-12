@@ -39,30 +39,48 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Technologies
 
-- HTML5
-- TypeScript
-- JavaScript
-- CSS3
-- Bootstrap 4.6.0
-- Font Awesome 6.5.2
-- Angular Material 14.1.0
-- Angular 14.1.3
-- CanvasJS
-  - Angular-Charts 1.2.0
-  - Charts 3.7.45
-- Compodoc 1.1.23
-- Git
-
-<div class="container">
-  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/html-5.svg?sanitize=true" alt="HTML5"></div>
-  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/typescript.svg?sanitize=true" alt="TypeScript"></div>
-  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/javascript.svg?sanitize=true" alt="JavaScript"></div>
-  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/css-3.svg?sanitize=true" alt="CSS3"></div>
-  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/font-awesome-flag.svg?sanitize=true" alt="Font Awesome"></div>
-  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/angular.svg?sanitize=true" alt="angular"></div>
-  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/CanvasJS.svg?sanitize=true" alt="CanvasJS"></div>
-  <div class="item"><img class="icon" src="https://raw.github.com/popcodelab/svg-icons/main/compodoc.svg?sanitize=true" alt="CompoDoc"></div>
-</div>
+<table style="border: none">
+<tr style="border: none">
+  <td style="border: none">HTML5</td><td style="border: none">
+  <img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/html-5.svg?sanitize=true" alt="HTML5"></td>
+</tr>
+<tr style="border: none">
+  <td style="border: none">TypeScript</td><td style="border: none">
+  <img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/typescript.svg?sanitize=true" alt="TypeScript"></td>
+</tr>
+<tr style="border: none">
+  <td style="border: none">JavaScript</td><td style="border: none">
+  <img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/javascript.svg?sanitize=true" alt="JavaScript"></td>
+</tr>
+<tr style="border: none">
+  <td style="border: none">CSS3</td><td style="border: none">
+  <img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/css-3.svg?sanitize=true" alt="CSS3"></td>
+</tr>
+<tr style="border: none">
+  <td style="border: none">Bootstrap 4.6.0</td>
+  <td style="border: none"><img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/bootstrap.svg?sanitize=true" alt="Bootstrap 4.6.0"></td>  
+</tr>
+<tr style="border: none">
+  <td style="border: none">Font Awesome 6.5.2</td>
+  <td style="border: none"><img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/font-awesome-flag.svg?sanitize=true" alt="Font Awesome 6.5.2"></td>
+ </tr>
+<tr style="border: none"> 
+  <td style="border: none">Angular 14.1.3</td>
+  <td style="border: none"><img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/angular.svg?sanitize=true" alt="Angular 14.1.3"></td>
+</tr>
+<tr style="border: none"> 
+  <td style="border: none">CanvasJS Chart  3.7.45</td>
+  <td style="border: none"><img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/CanvasJS.svg?sanitize=true" alt="CanvasJS Chart  3.7.45"></td>
+</tr>
+<tr style="border: none">  
+  <td style="border: none">Compodoc 1.1.23</td>
+  <td style="border: none"><img style="height: 40px;width: 40px;" src="https://raw.github.com/popcodelab/svg-icons/main/compodoc.svg?sanitize=true" alt="CompoDoc 1.1.23"></td>
+</tr>
+<tr style="border: none"> 
+  <td style="border: none">Angular Material 14.1.0</td>
+  <td style="border: none"><img style="height: 45px;width: 45px;" src="https://raw.github.com/popcodelab/svg-icons/main/material.svg?sanitize=true" alt="Angular Material 14.1.0"></td>
+</tr>
+</table>
 
 ## Compodoc
 
@@ -108,7 +126,6 @@ POP's Code Lab
 }
 
 .icon {
-  height: 60px;
-  width: 60px;
+  height: 40px;width: 40px;
 }
 </style>

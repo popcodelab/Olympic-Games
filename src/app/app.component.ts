@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {take} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription, take} from 'rxjs';
 import {DataService} from './core/services/data.service';
 
 /**
@@ -16,7 +16,14 @@ import {DataService} from './core/services/data.service';
   styleUrls: ['./app.component.scss'],
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+
+  /**
+   * Represents a subscription.
+   *
+   * @type {Subscription} subscription
+   */
+  private subscription: Subscription | undefined;
 
   /**
    * Creates a new instance of the ClassName.
@@ -28,11 +35,25 @@ export class AppComponent implements OnInit {
   }
 
   /**
+   * Lifecycle hook that is called when a component is being destroyed.
+   * This method is part of the Angular component lifecycle, triggered just before the component is removed from the view.
+   * It is used to perform any necessary cleanup tasks, such as unsubscribing from observable or resetting variables.
+   *
+   * @returns {void}
+   *    This method does not return anything.
+   */
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  /**
    * Initializes the component.
    *
    * @returns {void}
    */
   ngOnInit(): void {
-    this.olympicService.loadInitialData().pipe(take(1)).subscribe();
+    this.subscription = this.olympicService.loadInitialData().pipe(take(1)).subscribe();
   }
 }

@@ -18,7 +18,7 @@ import {SumUp} from "../../../../core/models/sum-up.model";
 /**
  * @author Pignon Pierre-Olivier
  *
- * @version 1.0
+ * @version 1.2
  */
 export class ChartTitleBarComponent {
 
